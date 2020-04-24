@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+        <data noupdate="1">
+                <record model="coordinadora.settings">
+                        <field name="user">patyco.ws</field>
+                        <field name="password">Py765!j0</field>
+                        <field name="id_cliente">30922</field>
+                        <field name="nit_cliente">900672558</field>
+                        <field name="apikey">258fb1b0-75b5-11e9-8f9e-2a86e4085a59</field>
+                        <field name="password_apikey">zmEsL5PafjqeVJ</field>
+                        <field name="password_sha256" >5adfc095d51aaeedcffbb7a770e5244331cf3a23fee8201e8f0a1d694ef5d7f7</field>
+                </record>
+        </data>
+</odoo>

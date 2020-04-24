@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Generar Guias-->
+    <!--Vista form-->
+    <record id="simple_tracking_form_view" model="ir.ui.view">
+        <field name="name">simple.tracking.form.view</field>
+        <field name="model">coordinadora.simple.tracking</field>
+        <field name="arch" type="xml">
+            <form strins="Rastreo Guía de Forma Simple">
+                <header>
+                    <button name="generate_rastreo_simple" type="object" string="Generar Rastreo" states="draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,generate" statusbar_colors='{"active":"blue"}' string="Estado"/>
+                </header>
+                <sheet>
+                    <group string="Rastreo Simple">
+                        <field name="number_guia" attrs="{'readonly': [('state', '=', 'generate')]}"/>
+                    </group>
+                    <group col="4" attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <field name="city_origen" readonly="1"/>
+                        <field name="city_destino" readonly="1"/>
+                        <field col="4" name="dia_promesa_servicio" readonly="1"/>
+                    </group>
+                    <group  attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <h3>Estado de la Guía</h3>
+                        <field col="2" name="descripcion_estado" readonly="1"/>
+                        <field name="fecha_entrega" readonly="1"/>
+                        <field name="hora_entrega" readonly="1"/>
+                    </group>
+                    <group attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <h3>Novedad</h3>
+                        <field name="descripcion_novedad" readonly="1"/>
+                        <field name="fecha_novedad" readonly="1"/>
+                        <field name="hora_novedad" readonly="1"/>
+                    </group>
+                    <field name="user_id" invisible="1" />
+                    <field name="user_name" invisible="1"/>
+                    <field name="date" invisible="1" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--Vista Tree-->
+    <record id="simple_tracking_tree_view" model="ir.ui.view">
+        <field name="name">simple.trackingtree.view</field>
+        <field name="model">coordinadora.simple.tracking</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="number_guia"/>
+                <field name="descripcion_estado"/>
+                <field name="fecha_entrega"/>
+                <field name="hora_entrega"/>
+                <field name="date"/>
+                <field name="state" string="Estado"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--Action-->
+    <record model="ir.actions.act_window" id="action_simple_tracking">
+        <field name="name">Rastreo Guía de Forma Simple</field>
+        <field name="res_model">coordinadora.simple.tracking</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--Menús-->
+
+    <!--Acción del menu-->
+    <menuitem
+         id="action_simple_tracking_menu"
+         parent="coordinadora_menu_root"
+         string="Rastreo Guía de Forma Simple"
+         sequence="5"
+         action="action_simple_tracking"
+    />
+
+</odoo>

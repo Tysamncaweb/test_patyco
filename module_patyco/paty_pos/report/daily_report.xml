@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="header_daily_report">
+            <div class="header"><br/>
+                 <table cellspacing="0" cellpadding="0" border="0" style="width:100%; height:20px;">
+                    <tr style="height:20px;">
+                        <td class="text-left" style="width:25%; border-style: dashed; border-top: 2px dashed #000000;">
+                            <span t-esc="mes_abr"/>-<span t-esc="day"/>-<span t-esc="ano"/>
+                        </td>
+                        <td style="width:50%; border-style: dashed; border-top: 2px dashed #000000;">&amp;nbsp;</td>
+                        <td style="width:25%; border-style: dashed; border-top: 2px dashed #000000;" class="text-right">
+                             <div class="footer"></div>
+                                Página:<span class="page"/>
+                        </td>
+                    </tr>
+                     <tr>
+                         <td class="text-left" style="width:25%;">&amp;nbsp;</td>
+                         <td class="text-center" style="width:50%;">
+                             <span t-esc="res_company.name" />-<span t-esc="res_company.vat"/>
+                         </td>
+                         <td style="width:25%; font-size: 12p;" class="text-right">&amp;nbsp;</td>
+                     </tr>
+                     <tr>
+                         <td class="text-left" style="width:25%;">&amp;nbsp;</td>
+                         <td class="text-center" style="width:50%;">
+                             COMPROBANTE INFORME DIARIO
+                         </td>
+                         <td style="width:25%; font-size: 12px;" class="text-right">&amp;nbsp;</td>
+                     </tr>
+                     <tr>
+                         <td class="text-left" style="width:25%; border-style: dashed; border-bottom: 2px dashed #000000;">POSi</td>
+                         <td style="width:50%; border-style: dashed; border-bottom: 2px dashed #000000;">
+                             2018-1f RT &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<span t-esc="mes_abr"/>-<span t-esc="day"/>-<span t-esc="ano"/>
+                         </td>
+                         <td style="width:25%; border-style: dashed; border-bottom: 2px dashed #000000;" class="text-right">
+                             <span t-esc="hora"/>
+                         </td>
+                     </tr>
+                </table>
+                <table style="width:100%;">
+                    <tr>
+                        <th class="text-left" style="width:5%; border-style: dashed; border-bottom: 2px dashed #000000;"></th>
+                        <th class="text-left" style="width:15%; border-style: dashed; border-bottom: 2px dashed #000000;">FECHA</th>
+                        <th class="text-left" style="width:10%; border-style: dashed; border-bottom: 2px dashed #000000;">DOCUMENTO</th>&amp;nbsp;
+                        <th class="text-left" style="width:20%; border-style: dashed; border-bottom: 2px dashed #000000;">&amp;nbsp;&amp;nbsp;CLIENTE</th>
+                        <th class="text-left" style="width:10%; border-style: dashed; border-bottom: 2px dashed #000000;">BRUTO</th>
+                        <th class="text-left" style="width:10%; border-style: dashed; border-bottom: 2px dashed #000000;">DESCUENTO</th>&amp;nbsp;
+                        <th class="text-left" style="width:10%; border-style: dashed; border-bottom: 2px dashed #000000;">&amp;nbsp;&amp;nbsp;IMCO</th>
+                        <th class="text-left" style="width:10%; border-style: dashed; border-bottom: 2px dashed #000000;">I.V.A</th>
+                        <th class="text-left" style="width:10%; border-style: dashed; border-bottom: 2px dashed #000000;">TOTAL</th>
+                    </tr>
+                </table>
+                <div>
+                    <strong>Desde <span t-esc="mes"/>&amp;nbsp;<span t-esc="day_start"/>&amp;nbsp;del&amp;nbsp;<span t-esc="year_start"/> &amp;nbsp;Hasta <span t-esc="month_end"/>&amp;nbsp;<span t-esc="day_end"/>&amp;nbsp;del&amp;nbsp;<span t-esc="year_end"/></strong>
+                </div>
+            </div>
+        </template>
+
+        <record model="report.paperformat" id="paperformat_daily_report">
+            <field name="name">paperformat.daily.report</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_width">297</field>
+            <field name="page_height">210</field>
+            <field name="margin_top">45</field>
+            <field name="margin_right">0</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="daily_report2"
+            string="Comprobante Informe Diario"
+            model="daily.report"
+            report_type="qweb-pdf"
+            name="paty_pos.daily_report_pos"
+            file="paty_pos.daily_report_pos"
+            paperformat ="paty_pos.paperformat_daily_report"
+        />
+        <template id="daily_report_pos">
+            <t t-call="web.html_container">
+              <t t-call="paty_pos.header_daily_report"/>
+                <div class="article">
+                    <div class="page">
+                        <div>
+                            <t t-foreach="configs_name" t-as="a">
+                                <div class="text-left"><strong>COMPUTADOR:</strong><span t-esc="a"/></div>
+                            </t>
+                            <strong>CAJERO:</strong><t t-esc="cajero"/><br/>
+                                 <strong>VENTAS GRAVADAS BIENES</strong>
+                        </div>
+                        <t t-foreach="tax_unico" t-as="tax">
+                            IVA DE: <span t-esc="tax['name']"/><br/>
+                        </t>
+                        <t t-set="a" t-value="0.00"/>
+
+                         <table style="width:100%;">
+                             <t t-set="suma_bruto" t-value="0"/>
+                             <t t-set="suma_desc" t-value="0"/>
+                             <t t-set="suma_imco" t-value="0"/>
+                             <t t-set="suma_iva" t-value="0"/>
+                             <t t-set="suma_total" t-value="0"/>
+                            <t t-foreach="product" t-as="producto">
+                                <t t-if="producto['iva'] != 0">
+                                    <tr>
+                                        <td class="text-left" style="width:5%;"><span t-esc="0"/></td>
+                                        <td class="text-left" style="width:15%;"><span t-esc="producto['date']"/></td>
+                                        <td class="text-left" style="width:10%;"><span t-esc="producto['documento']"/></td>&amp;nbsp;
+                                        <td class="text-left" style="width:20%;"><span t-esc="producto['cliente']"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['bruto'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['descuento'])"/></td>&amp;nbsp;
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['imco'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['iva'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['total'])"/></td>
+                                    </tr>
+                                    <t t-set="suma_bruto" t-value="suma_bruto + producto['bruto']"/>
+                                    <t t-set="suma_desc" t-value="suma_desc + producto['descuento']"/>
+                                    <t t-set="suma_imco" t-value="suma_imco + producto['imco']"/>
+                                    <t t-set="suma_iva" t-value="suma_iva + producto['iva']"/>
+                                    <t t-set="suma_total" t-value="suma_total + producto['total']"/>
+                                </t>
+                            </t>
+                            <t t-foreach="tax_unico" t-as="tax">
+                                <t t-if="tax['tax_amount'] != 0">
+                                    <tr>
+                                        <td class="text-left" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="tax['name']"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['base_amount'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['descuento'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['imco'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['tax_amount'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['total'])"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                             <tr t-if="suma_bruto != 0" style="height:30px;">
+                                <td class="text-center" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">TOTAL VENTAS GRAVADAS BIENES</td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_bruto)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_desc)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_imco)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_iva)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_total)"/></td>
+                            </tr>
+                        </table><br/>
+                        <strong>VENTAS EXCLUIDAS/NO GRAVADAS BIENES</strong><br/>
+                        <table style="width:100%;">
+                            <t t-set="suma_bruto" t-value="0"/>
+                             <t t-set="suma_desc" t-value="0"/>
+                             <t t-set="suma_imco" t-value="0"/>
+                             <t t-set="suma_iva" t-value="0"/>
+                             <t t-set="suma_total" t-value="0"/>
+                            <t t-foreach="product" t-as="producto">
+                                <t t-if="producto['iva_name'] == 'IVA Excluido'">
+                                    <tr>
+                                        <td class="text-left" style="width:5%;"><span t-esc="0"/></td>
+                                        <td class="text-left" style="width:15%;"><span t-esc="producto['date']"/></td>
+                                        <td class="text-left" style="width:10%;"><span t-esc="producto['documento']"/></td>&amp;nbsp;
+                                        <td class="text-left" style="width:20%;"><span t-esc="producto['cliente']"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['bruto'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['descuento'])"/></td>&amp;nbsp;
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['imco'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['iva'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['total'])"/></td>
+                                    </tr>
+                                    <t t-set="suma_bruto" t-value="suma_bruto + producto['bruto']"/>
+                                    <t t-set="suma_desc" t-value="suma_desc + producto['descuento']"/>
+                                    <t t-set="suma_imco" t-value="suma_imco + producto['imco']"/>
+                                    <t t-set="suma_iva" t-value="suma_iva + producto['iva']"/>
+                                    <t t-set="suma_total" t-value="suma_total + producto['total']"/>
+                                </t>
+                            </t>
+                            <tr t-if="suma_bruto != 0" style="height:30px;">
+                                <td class="text-center" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">TOTAL VENTAS EXENTAS BIENES</td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_bruto)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_desc)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_imco)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_iva)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_total)"/></td>
+                            </tr>
+                        </table><br/>
+                        <strong>VENTAS EXENTAS BIENES</strong><br/>
+                        <table style="width:100%;">
+                            <t t-set="suma_bruto" t-value="0"/>
+                             <t t-set="suma_desc" t-value="0"/>
+                             <t t-set="suma_imco" t-value="0"/>
+                             <t t-set="suma_iva" t-value="0"/>
+                             <t t-set="suma_total" t-value="0"/>
+                            <t t-foreach="product" t-as="producto">
+                                <t t-if="producto['iva'] == 0">
+                                    <tr>
+                                        <td class="text-left" style="width:5%;"><span t-esc="0"/></td>
+                                        <td class="text-left" style="width:15%;"><span t-esc="producto['date']"/></td>
+                                        <td class="text-left" style="width:10%;"><span t-esc="producto['documento']"/></td>&amp;nbsp;
+                                        <td class="text-left" style="width:20%;"><span t-esc="producto['cliente']"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['bruto'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['descuento'])"/></td>&amp;nbsp;
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['imco'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['iva'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(producto['total'])"/></td>
+                                    </tr>
+                                    <t t-set="suma_bruto" t-value="suma_bruto + producto['bruto']"/>
+                                    <t t-set="suma_desc" t-value="suma_desc + producto['descuento']"/>
+                                    <t t-set="suma_imco" t-value="suma_imco + producto['imco']"/>
+                                    <t t-set="suma_iva" t-value="suma_iva + producto['iva']"/>
+                                    <t t-set="suma_total" t-value="suma_total + producto['total']"/>
+                                </t>
+                            </t>
+                            <tr t-if="suma_bruto != 0" style="height:30px;">
+                                <td class="text-center" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">TOTAL VENTAS EXENTAS BIENES</td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_bruto)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_desc)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_imco)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_iva)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_total)"/></td>
+                            </tr>
+                        </table><br/>
+                        <strong>VENTAS GRAVADAS SERVICIOS</strong><br/>
+                        <table style="width:100%;">
+                            <t t-set="suma_bruto" t-value="0"/>
+                             <t t-set="suma_desc" t-value="0"/>
+                             <t t-set="suma_imco" t-value="0"/>
+                             <t t-set="suma_iva" t-value="0"/>
+                             <t t-set="suma_total" t-value="0"/>
+                            <t t-foreach="service" t-as="servicio">
+                                <t t-if="servicio['iva'] != 0">
+                                    <tr>
+                                        <td class="text-left" style="width:5%;"><span t-esc="0"/></td>
+                                        <td class="text-left" style="width:15%;"><span t-esc="servicio['date']"/></td>
+                                        <td class="text-left" style="width:10%;"><span t-esc="servicio['documento']"/></td>&amp;nbsp;
+                                        <td class="text-left" style="width:20%;"><span t-esc="servicio['cliente']"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['bruto'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['descuento'])"/></td>&amp;nbsp;
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['imco'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['iva'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['total'])"/></td>
+                                    </tr>
+                                    <t t-set="suma_bruto" t-value="suma_bruto + producto['bruto']"/>
+                                    <t t-set="suma_desc" t-value="suma_desc + producto['descuento']"/>
+                                    <t t-set="suma_imco" t-value="suma_imco + servicio['imco']"/>
+                                    <t t-set="suma_iva" t-value="suma_iva + producto['iva']"/>
+                                    <t t-set="suma_total" t-value="suma_total + producto['total']"/>
+                                </t>
+                            </t>
+                            <t t-foreach="taxes" t-as="tax">
+                                <t t-if="tax['tax_amount'] != 0">
+                                    <tr>
+                                        <td class="text-left" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="tax['name']"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['base_amount'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['descuento'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['imco'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['tax_amount'])"/></td>
+                                        <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(tax['total'])"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                             <tr t-if="suma_bruto != 0" style="height:30px;">
+                                <td class="text-center" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">TOTAL VENTAS GRAVADAS SERVICIOS</td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_bruto)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_desc)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_imco)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_iva)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_total)"/></td>
+                            </tr>
+                        </table><br/>
+                        <strong>VENTAS EXCLUIDAS/NO GRAVADAS SERVICIOS</strong><br/>
+                        <table style="width:100%;">
+                            <t t-set="suma_bruto" t-value="0"/>
+                            <t t-set="suma_desc" t-value="0"/>
+                            <t t-set="suma_imco" t-value="0"/>
+                            <t t-set="suma_iva" t-value="0"/>
+                            <t t-set="suma_total" t-value="0"/>
+                            <t t-foreach="service" t-as="servicio">
+                                <t t-if="servicio['iva'] == 0">
+                                    <tr>
+                                        <td class="text-left" style="width:5%;"><span t-esc="0"/></td>
+                                        <td class="text-left" style="width:15%;"><span t-esc="servicio['date']"/></td>
+                                        <td class="text-left" style="width:10%;"><span t-esc="servicio['documento']"/></td>&amp;nbsp;
+                                        <td class="text-left" style="width:20%;"><span t-esc="servicio['cliente']"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['bruto'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['descuento'])"/></td>&amp;nbsp;
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['imco'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['iva'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['total'])"/></td>
+                                    </tr>
+                                    <t t-set="suma_bruto" t-value="suma_bruto + producto['bruto']"/>
+                                    <t t-set="suma_desc" t-value="suma_desc + producto['descuento']"/>
+                                    <t t-set="suma_imco" t-value="suma_imco + servicio['imco']"/>
+                                    <t t-set="suma_iva" t-value="suma_iva + producto['iva']"/>
+                                    <t t-set="suma_total" t-value="suma_total + producto['total']"/>
+                                </t>
+                            </t>
+                            <tr t-if="suma_bruto != 0" style="height:30px;">
+                                <td class="text-center" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">TOTAL VENTAS EXENTAS SERVICIOS</td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_bruto)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_desc)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_imco)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_iva)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_total)"/></td>
+                            </tr>
+                        </table><br/>
+                        <strong>VENTAS EXENTAS SERVICIOS</strong><br/>
+                        <table style="width:100%;">
+                            <t t-set="suma_bruto" t-value="0"/>
+                            <t t-set="suma_desc" t-value="0"/>
+                            <t t-set="suma_imco" t-value="0"/>
+                            <t t-set="suma_iva" t-value="0"/>
+                            <t t-set="suma_total" t-value="0"/>
+                            <t t-foreach="service" t-as="servicio">
+                                <t t-if="servicio['iva'] == 0">
+                                    <tr>
+                                        <td class="text-left" style="width:5%;"><span t-esc="0"/></td>
+                                        <td class="text-left" style="width:15%;"><span t-esc="servicio['date']"/></td>
+                                        <td class="text-left" style="width:10%;"><span t-esc="servicio['documento']"/></td>&amp;nbsp;
+                                        <td class="text-left" style="width:20%;"><span t-esc="servicio['cliente']"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['bruto'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['descuento'])"/></td>&amp;nbsp;
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['imco'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['iva'])"/></td>
+                                        <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(servicio['total'])"/></td>
+                                    </tr>
+                                    <t t-set="suma_bruto" t-value="suma_bruto + producto['bruto']"/>
+                                    <t t-set="suma_desc" t-value="suma_desc + producto['descuento']"/>
+                                    <t t-set="suma_imco" t-value="suma_imco + servicio['imco']"/>
+                                    <t t-set="suma_iva" t-value="suma_iva + producto['iva']"/>
+                                    <t t-set="suma_total" t-value="suma_total + producto['total']"/>
+                                </t>
+                            </t>
+                            <tr t-if="suma_bruto != 0" style="height:30px;">
+                                <td class="text-center" colspan="4" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">TOTAL VENTAS EXENTAS SERVICIOS</td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_bruto)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_desc)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_imco)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_iva)"/></td>
+                                <td class="text-right" style="border-style: dashed; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;"><span t-esc="'{0:,.2f}'.format(suma_total)"/></td>
+                            </tr>
+                        </table><br/>
+                        <table style="width:100%">
+                            <tr>
+                                <td class="text-left" style="width:50%;">TOTAL CAJERO TRANSACCIONES: <span t-esc="contador"/></td>
+                                <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(amount_bruto)"/></td>
+                                <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(discount)"/></td>
+                                <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(imco)"/></td>
+                                <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(iva)"/></td>
+                                <td class="text-right" style="width:10%;"><span t-esc="'{0:,.2f}'.format(amount_total)"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="width:50%;">FACTURA MOSTRADOR INICIAL: <span t-esc="fact_inicial"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="width:50%;">FACTURA MOSTRADOR FINAL: <span t-esc="fact_final"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="width:50%;" colspan="6">TRANSACCIONES: <span t-esc="contador"/></td>
+                            </tr>
+                        </table><br/>
+
+                        <table style="width:100%">
+                            <tr>
+                                <th class="text-left" style="width:20%; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">MEDIOS DE PAGO</th>
+                                <th class="text-right" style="width:30%; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">TOTAL VENTAS</th>
+                                <th class="text-right" style="width:10%; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">Nro. TRANS.</th>
+                                <th class="text-left" style="width:40%; border-top: 2px dashed #000000; border-bottom: 2px dashed #000000;">OBSERVACIÓN</th>
+                            </tr>
+                            <tr t-foreach="journal" t-as="j">
+                                <td class="text-left" style="width:20%;"><span t-esc="j['journal_id']"/></td>
+                                <td class="text-right" style="width:30%;"><span t-esc="'{0:,.2f}'.format(j['amount_sale'])"/></td>
+                                <td class="text-right" style="width:10%;"><span t-esc="j['contador']"/></td>
+                                <td class="text-right" style="width:40%;"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="width:20%; border-top: 2px dashed #000000;">TOTAL</td>
+                                <td class="text-right" style="width:30%; border-top: 2px dashed #000000; "><span t-esc="'{0:,.2f}'.format(payment)"/></td>
+                                <td class="text-left" style="width:50%; border-top: 2px dashed #000000;" colspan="2">&amp;nbsp;</td>
+                            </tr>
+                        </table>
+
+                    </div>
+              </div>
+            </t>
+        </template>
+    </data>
+</odoo>

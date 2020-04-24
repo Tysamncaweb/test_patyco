@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+      <record id="view_partner_form" model="ir.ui.view">
+          <field name="name">res.partner.form</field>
+          <field name="model">res.partner</field>
+          <field name="inherit_id" ref="base.view_partner_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='type']" position="before">
+                        <label for="name2" string="Nombres y Apellidos" attrs="{'invisible': [('company_type', '=', 'company')], 'required': [('company_type', '=', 'person')]}"/>
+                        <div class="o_address_format">
+                            <field name="name2" placeholder="Segundo Nombre" class="o_address_street"
+                                        attrs="{'invisible': [('company_type', '=', 'company')], 'required': [('company_type', '=', 'person')] }"/>
+                            <field name="last_name" placeholder="Primer Apellido" class="o_address_street"
+                                        attrs="{'invisible': [('company_type', '=', 'company')], 'required': [('company_type', '=', 'person')] }"/>
+                            <field name="last_name2" placeholder="Segundo Apellido" class="o_address_street"
+                                        attrs="{'invisible': [('company_type', '=', 'company')], 'required': [('company_type', '=', 'person')] }"/>
+                        </div>
+                    </xpath>
+                    <xpath expr="//field[@name='vat']" position="after">
+                        <field name="dv" placeholder="Dv" class="o_address_street"/>
+                    </xpath>
+                </field>
+          </record>
+  </data>
+</odoo>

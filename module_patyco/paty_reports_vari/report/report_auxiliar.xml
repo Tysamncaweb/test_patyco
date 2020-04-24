@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_auxiliar_report">
+            <field name="name">paperformat.auxiliar.report</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="margin_top">15</field>
+            <field name="margin_right">0</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="auxiliar_report2"
+            string="Auxiliar General-Histórico"
+            model="auxiliar.report"
+            report_type="qweb-pdf"
+            name="paty_reports_vari.auxiliar_report"
+            file="paty_reports_vari.auxiliar_report"
+            paperformat ="paty_reports_vari.paperformat_auxiliar_report"
+        />
+        <template id="auxiliar_report">
+            <t t-call="web.html_container">
+                <div class="article">
+                    <div class="page">
+                        <h4 class="text-center">PATYCO S.A.S - 900.672.558-5</h4>
+                        <h4 class="text-center"> Auxiliar General - Histórico <span t-esc="fecha_inicio"/> A <span t-esc="fecha_fin"/></h4>
+                        <br/><br/><br/>
+                        <table border="1" style="width:100%;">
+                            <tr style="font-weight:bold; border: 1px solid; background-color:#C0C0C0;">
+                                <td class="text-center" style="border: 1px solid;"> Cuenta </td>
+                                <td class="text-center" style="border: 1px solid;"> Nombre Cuenta </td>
+                                <td class="text-center" style="border: 1px solid;"> Nit </td>
+                                <td class="text-center" style="border: 1px solid;"> Nombre Nit </td>
+                                <td class="text-center" style="border: 1px solid;"> Documento Ref </td>
+                                <td class="text-center" style="border: 1px solid;"> Fecha </td>
+                                <td class="text-center" style="border: 1px solid;"> Comprobante </td>
+                                <td class="text-center" style="border: 1px solid;"> Documento </td>
+                                <td class="text-center" style="border: 1px solid;"> Detalle </td>
+                                <td class="text-center" style="border: 1px solid;"> Saldo Anterior </td>
+                                <td class="text-center" style="border: 1px solid;"> Débitos </td>
+                                <td class="text-center" style="border: 1px solid;"> Créditos </td>
+                                <td class="text-center" style="border: 1px solid;"> Nuevo Saldo </td>
+                            </tr>
+                            <t t-foreach="docs" t-as="doc">
+                                <tr style="border: 1px solid;">
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['cuenta']"/></td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['name_cuenta']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['nit']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['name_nit']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['documento_ref']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['fecha']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['comprobante']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['documento']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['detalle']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['saldo_anterior']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['debitos']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['creditos']"/> </td>
+                                    <td class="text-center" style="border: 1px solid;"> <span t-esc="doc['nuevo_saldo']"/> </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

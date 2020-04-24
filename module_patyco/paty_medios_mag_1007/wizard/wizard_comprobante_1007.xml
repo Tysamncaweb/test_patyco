@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard para imprimir reporte comprobante 1007-->
+        <record id="report_1007" model="ir.ui.view">
+       	    <field name="name">Reporte Comprobante 1007</field>
+            <field name="model">wizard.report.1007</field>
+    	    <field name="arch" type="xml">
+    	    	 <form string="Reporte Comprobante 1007">
+                     <group colspan="8" col="4">
+                         <field name="date_start" string="Fecha inicio" required="1"/>
+                         <field name="date_end" string="Fecha fin" required="1"/>
+                         <field name="formato"/>                         
+                     </group>
+                     <group>
+                        <field name="name" colspan="4" invisible="1"/>
+                        <field name="report" filename="name" colspan="4"/>
+                     </group>
+                <footer>
+                   <button name="print_1007_pdf" string="Exportar PDF" type="object" class="oe_highlight" />
+                   <button name="print_1007_xls" string="Exportar XLS" type="object" class="oe_highlight" />
+                   <button special="cancel" string="Cancel" class="oe_highlight" />
+                </footer>
+
+                </form>
+    	    </field>
+    	</record>
+
+    	<record id="action_report_1007" model="ir.actions.act_window">
+        	<field name="name">1007 Ingresos recibidos</field>
+        	<field name="res_model">wizard.report.1007</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="report_1007"/>
+        	<field name="target">new</field>
+    	</record>
+
+        <menuitem 
+                 id="menu__reports_rep_med_mag"
+                 name="Reportes de Medios magneticos"
+                 parent="account.menu_finance_reports"
+                 groups="account.group_account_manager"/>
+
+        <menuitem
+                 id="menuitem_report_1007"
+                 parent="paty_medios_mag_1007.menu__reports_rep_med_mag"
+                 name="1007 Ingresos recibidos"
+				 sequence="7"
+                 action="action_report_1007"/>
+
+    </data>
+</odoo>

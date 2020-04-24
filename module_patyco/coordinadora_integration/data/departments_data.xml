@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+	<record model="coordinadora.settings.department">
+		<field name="name">Antioquia</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Amazonas</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Arauca</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Atlantico</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Bolivar</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Boyaca</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Caldas</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Caqueta</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Casanare</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Cauca</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Cesar</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Choco</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Cordoba</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Cundinamarca</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Guainia</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Guaviare</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Huila</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">La Guajira</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Magdalena</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Meta</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Nariño</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Norte de Santander</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Putumayo</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Quindio</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Risaralda</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">San Andres y Providencia</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Santander</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Sucre</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Tolima</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Valle</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Vaupes</field>
+	</record> 
+	<record model="coordinadora.settings.department">
+		<field name="name">Vichada</field>
+	</record> 
+
+    </data>
+</odoo>

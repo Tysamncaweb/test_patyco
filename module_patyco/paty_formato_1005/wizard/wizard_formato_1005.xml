@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!-- Wizard para imprimir el formato 1005-->
+        <record id="wizard_formato_1005_id" model="ir.ui.view">
+       	    <field name="name">wizard formato 1005</field>
+            <field name="model">wizard.formato.1005</field>
+    	    <field name="arch" type="xml">
+    	    	 <form string="Formato 1005">
+                    <group colspan="8" col="4">
+                        <field name="date_start" string="Fecha desde"/>
+                        <field name="date_end" string="Fecha hasta"/>
+                        <!--field name="cuenta_contable" string="Cuenta Contable"/-->
+                    </group>
+                    <group>
+                    <field name="name" colspan="4" invisible="1"/>
+                    <field name="report" filename="name" colspan="4"/>
+                    </group>
+
+                <footer>
+                   <button name="print_1005_xls" string="Exportar XLS" type="object" class="oe_highlight" />
+                   <button special="cancel" string="Cancel" class="oe_highlight" />
+                </footer>
+                </form>
+    	    </field>
+    	</record>
+
+        <record id="action_formato_1005" model="ir.actions.act_window">
+        	<field name="name">1005 Impuesto a las ventas (descontable)</field>
+        	<field name="res_model">wizard.formato.1005</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="wizard_formato_1005_id"/>
+        	<field name="target">new</field>
+    	</record>
+
+        <menuitem id="menu_formato_1005"
+                  name="1005 Impuesto a las ventas (descontable)"
+                  parent="paty_medios_mag_1007.menu__reports_rep_med_mag"
+                  action="action_formato_1005"
+                  sequence="5"
+                  groups="account.group_account_manager"
+        />
+
+    </data>
+</odoo>

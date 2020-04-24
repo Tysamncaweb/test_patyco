@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <template id="header_report_invoice_adjustments">
+            <div class="header">
+                 <table cellspacing="0" cellpadding="0" border="0" style="width:100%; height:40px;">
+                    <tr style="height:40px;">
+                        <td  style="width:30%;"><br/>
+                             <img t-att-src="'data:image/png;base64,%s' %(to_text(res_company.logo))" style="width:155px; height:155px; margin-left:14px; margin-top:0px; margin-bottom:12px;"/>
+                        </td>
+                        <td style="text-align:center; width:30%; font-size: 14px;"><br/>
+                                <h4><span t-esc="res_company.name" /></h4>
+                                <span t-esc="res_company.street"/>
+                                <span t-esc="res_company.city"/><br></br>
+                                <span t-esc="res_company.zip"/><br></br>
+                                <span t-esc="res_company.country_id.name"/>
+                                <span t-esc="res_company.state_id.name"/><br></br>
+                                <span t-esc="res_company.phone"/>
+                        </td>
+                            <td style="text-align:left; width:40%; font-size: 12px;"><br/>
+                                    <div style=" font-size: 22px;"><strong>FACTURA DE VENTA </strong></div>
+                                    <span t-field="o.move_id" style="font-size: 22px; text-align:center; margin-left:18px;"/><br/>
+                                    <strong>Formula DIAN No.   </strong>  <span t-esc="o.journal_id.sequence_id.dian_type" style="border:7px solid #FFFFFF;"/>
+                                    <strong>Fecha   </strong>  <span t-field="o.journal_id.sequence_id.date_range_ids.date_from" style="border:7px solid #FFFFFF;"/><br/>
+                                    <strong>Rango   </strong>  <span t-esc="str(o.journal_id.sequence_id.date_range_ids.number_next_actual).replace('.', '')" style="border:3px solid #FFFFFF;"/>
+                                    <strong>al   </strong>  <span t-field="o.journal_id.sequence_id.date_range_ids.dian_range_hasta" style="border:3px solid #FFFFFF;"/><br/>
+                                    <strong>Fecha de Vencimiento de Resolución:   </strong>  <span t-esc="o.journal_id.sequence_id.date_range_ids.date_to" style="border:3px solid #FFFFFF;"/><br/>
+                                    NO SOMOS GRANDES CONTRIBUYENTES <br></br>
+                                    NO SOMOS GRANDES AUTORRETENEDORES
+                            </td>
+                    </tr>
+                </table>
+            </div>
+    </template>
+
+
+    <template id="custom_invoice_template">
+        <t t-call = "sales_adjustments.header_report_invoice_adjustments" /><br/>
+        <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
+
+                   <br></br>
+                   <br></br>
+
+                <table width="100%"  style="border:1px solid #C0C0C0;font-size: 14px">
+                         <thead>
+                            <tr>
+                                <td style="border:1px solid #C0C0C0;"><strong>Cliente: </strong> <span t-esc="docs.partner_id.name"/></td>
+                                <td style="border:1px solid #C0C0C0;"><strong>Fecha:</strong> <span t-esc="docs.date_invoice"/></td>
+                                <td style="border:1px solid #C0C0C0;"><strong>F. de vencimiento:</strong> <span t-esc="docs.date_due"/></td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #C0C0C0;"><strong>O. de compra:</strong> <span t-esc="docs.reference"/></td>
+                                <td style="border:1px solid #C0C0C0;"><strong>Plazo:</strong> <span t-esc="docs.payment_term_id.name"/></td>
+                                <td style="border:1px solid #C0C0C0;"><strong>Vendedor:</strong> <span t-esc="docs.user_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #C0C0C0;"><strong>NIT:</strong> <span t-esc="docs.partner_id.vat"/></td>
+                                <td style="border:1px solid #C0C0C0;"><strong>Telefono:</strong> <span t-esc="docs.partner_id.phone"/></td>
+                                <td style="border:1px solid #C0C0C0;"><strong>Ciudad:</strong> <span t-esc="docs.partner_id.city"/></td>
+                            </tr>
+                         </thead>
+                </table>
+                <table width="100%"  style="border:1px solid #C0C0C0;; font-size: 14px">
+                         <thead>
+                            <tr>
+                                <td style="border:1px solid #C0C0C0;;"><strong>Dirección:</strong><span t-esc="docs.partner_id.street"/></td>
+                            </tr>
+                         </thead>
+                </table><br/>
+
+                 <table width="100%" >
+                         <thead>
+                            <tr>
+                                <th style="border:1px ">Referencia - Descripción</th>
+                                <th style="border:1px ">Cantidad </th>
+                                <th style="border:7px solid #FFFFFF;">Dto. %</th>
+                                <th style="border:7px solid #FFFFFF;">Impuesto</th>
+                                <th style="border:3px ">Valor Unitario</th>
+                                <th style="border:7px solid #FFFFFF; ">Precio Total</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                                <t t-foreach="o.invoice_line_ids" t-as="line" >
+                                    <tr>
+                                        <td><span t-field="line.product_id"/></td>
+                                        <td><span t-field="line.quantity"/></td>
+                                        <td><span t-field="line.discount"/> % </td>
+                                        <td style="border:7px solid #FFFFFF;"><span t-esc="', '.join(map(lambda x: (x.description or x.name), line.invoice_line_tax_ids))"/></td>
+                                        <td style="border:3px solid #FFFFFF;"><span t-field="line.price_unit"/></td>
+                                        <td><span t-field="line.price_subtotal"/></td>
+                                    </tr>
+                                </t>
+                         </tbody>
+                  </table><br/>
+
+                   <br></br>
+                   <br></br>
+
+
+                  <table width="50%"  style=" font-size: 12px">
+                     <thead>
+                        <tr>
+                            <th style="font-size: 12px;">Favor Consignar cuenta Bancolombia Ahorros Nro. 259-15656741</th>
+                        </tr>
+                     </thead>
+                    </table>
+                    <div class="clearfix">
+                        <div id="total" class="row"/>
+                        </div>
+                  <table width="100%"  style="border:1px solid #C0C0C0;; font-size: 10px">
+                         <thead>
+                            <tr>
+                                <th style="border:1px solid #C0C0C0;;">En caso de mora causará intereses a la tasa vigente y de darse la no cancelación de la mercancia , nos
+                                reservamos derecho de dominio sobre esta, según artículo 952 del Código de Comercio en concordancia con los
+                                artículos 655-656-669, según Código Civil. Esta factura se asimila en todos sus efectos legales a la letra de
+                                cambio según artículo 774 del Código de Comercio. Autorizo expresamente a PATYCO S.A.S, para que la
+                                información suministrada en el presente documento, que tiene caracter esctrictamente personal y comercial sea
+                                consultada y verificada con terceras personas incluyendo la base de datos, igualmente para que la misma sea
+                                usada y puesta en circulación con fines estrictamente comerciales. Tambien autorizo expresamente para que en
+                                el caso de incumplimiento de la (s) obligación(es), sea reportado a cualquier central de riesgo. En el evento de
+                                incumplir o quedar en mora con cualquiera de las obligaciones crediticias adquiridas en este trato, acepto pargar
+                                los honorarios que se le generen a mi acreedor por concepto del cobro prejurídico o judicial que tenga que iniciar
+                                en mi contra, así como los gastos y costos que se generen por el retiro y actualización de datos en la que me
+                                encuentre reportado por causa de incumplimiento de mora. <br/><br/>
+                                   <table width="80%"  style=" font-size: 12px">
+                                       <th style="border:24px solid #FFFFFF;">___________________</th><th style="border:08px solid #FFFFFF;">___________________</th>
+                                    <tr/>
+                                         <th style="border:30px solid #FFFFFF;">Nombre y c.c</th><th style="border:13px solid #FFFFFF;">Firma y Sello</th>
+                                    </table>
+                              </th>
+                               <td style="text-align:center; width:30%; font-size: 12px; border:1px solid #C0C0C0;">
+                                    <strong> Subtotal sin descuento        </strong>
+                                    <span t-field="o.amount_undiscounted"/><span>&amp;nbsp;</span><br/><br/>
+                                    <strong> Subtotal con descuento     </strong>
+                                    <span t-field="o.amount_untaxed"/><br/>
+                                        <br/><t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                            <t t-if="len(o.tax_line_ids) == 1 and o.amount_untaxed == amount_by_group[2]">
+                                                <span t-esc="amount_by_group[0]"/>
+                                                <t class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[3]" />
+                                                </t>
+                                            </t>
+                                          <t t-else="">
+                                                   <strong><span t-esc="amount_by_group[0]"/></strong> <!--#te coloca los nombres de los grupos de impuestos-->
+                                                   <span>&amp;nbsp;</span>
+                                                        <!--t t-esc="amount_by_group[4]"/-->  <!--#te coloca los totales  de los grupos de impuestos-->
+                                               <t class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[3]"/><br/>
+                                                </t>
+                                          </t>
+                                      </t><br/>
+                                    <strong> Descuento            </strong>
+                                    <span t-field="o.total_discount"/><br/><br/>
+                                    <strong> Total     </strong>
+                                    <span t-field="o.amount_total"/>
+                                </td>
+                            </tr>
+                         </thead>
+                 </table>
+
+                  <table width="65%"  style=" font-size: 12px">
+                         <thead>
+                            <tr>
+                                <th style="font-size: 12px;">Factura por el Computador Software ERP ODOO</th>
+                            </tr>
+                         </thead>
+                  </table>
+                  <table width="100%">
+                         <thead>
+                                <th style="font-size: 12px;text-align:right; width:75%;">Original</th>
+                                <th style="font-size: 12px; text-align:center; width:85%;">Usuario:  <span t-esc="docs.user_id.name"/></th>
+                         </thead>
+                  </table>
+
+        </div>
+
+
+    </template>
+
+
+
+         <template id="report_saleinvoice_inherit" inherit_id="account.report_invoice_with_payments">
+                    <t t-call="web.html_container" position="replace">
+                        <t t-call = "web.html_container" >
+                            <t t-foreach="docs" t-as="o">
+                                <t t-call="sales_adjustments.custom_invoice_template"/>
+                            </t>
+                        </t>
+                    </t>
+         </template>
+
+
+</odoo>
+
+
+
+
+
+
+
+
+
+

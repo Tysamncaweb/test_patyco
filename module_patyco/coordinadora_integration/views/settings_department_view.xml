@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="department_tree_view" model="ir.ui.view">
+        <field name="name">coordinadora.settings.department.tree</field>
+        <field name="model">coordinadora.settings.department</field>
+        <field name="arch" type="xml">
+            <tree string="Departamentos de Colombia" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="department_settings_action" model="ir.actions.act_window">
+        <field name="name">Departamentos de Colombia</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">coordinadora.settings.department</field>
+        <field name="view_mode">tree</field>
+        <field name="view_type">form</field>
+    </record>
+
+
+    <!--Acción del menu-->
+    <menuitem
+         id="department_action_settings"
+         parent="coordinadora_menu_settings"
+         string="Departamentos Colombia"
+         sequence="1"
+         action="department_settings_action"
+    />
+
+</odoo>

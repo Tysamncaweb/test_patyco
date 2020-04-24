@@ -1,0 +1,1 @@
+from . import config_formato_1005

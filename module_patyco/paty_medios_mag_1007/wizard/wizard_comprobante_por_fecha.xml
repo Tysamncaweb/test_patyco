@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!-- Wizard para imprimir reporte comprobante de contabilidad por fecha-->
+        <record id="report_comprobante_contabilidad_fecha" model="ir.ui.view">
+       	    <field name="name">Reporte Comprobante de Contabilidad por Fecha</field>
+            <field name="model">wizard.comprobante.contable.fecha</field>
+    	    <field name="arch" type="xml">
+    	    	 <form string="Reporte Comprobante de Contabilidad por fecha">
+                     <group colspan="8" col="4">
+                         <field name="date_start" string="Fecha inicio" required="1"/>
+                         <field name="date_end" string="Fecha fin" required="1"/>
+                         <field name="journal"/>
+                         <field name="company"/>
+                     </group>
+                <footer>
+                   <button name="print_analitico_pdf" string="Exportar PDF" type="object" class="oe_highlight" />
+                   <button name="print_analitico_xls" string="Exportar XLS" type="object" class="oe_highlight" />
+                   <button special="cancel" string="Cancel" class="oe_highlight" />
+                </footer>
+
+                </form>
+    	    </field>
+    	</record>
+
+        <record id="action_report_comprobante_contabilidad_fecha" model="ir.actions.act_window">
+        	<field name="name">Reporte Comprobante de Contabilidad por Fecha</field>
+        	<field name="res_model">wizard.comprobante.contable.fecha</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="report_comprobante_contabilidad_fecha"/>
+        	<field name="target">new</field>
+    	</record>
+
+        <menuitem id="menu_comprobantes_reports"
+                  name="Comprobantes Contables"
+                  parent="account.menu_finance_reports"
+                  groups="account.group_account_manager"/>
+
+        <menuitem
+                 id="menuitem_report_comprobante_contabilidad_fecha"
+                 parent="menu_comprobantes_reports"
+                 name="Comprobante de Contabilidad por fecha"
+                 action="action_report_comprobante_contabilidad_fecha"
+        />
+    </data>
+</odoo>

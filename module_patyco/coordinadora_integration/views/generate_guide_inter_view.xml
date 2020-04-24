@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Generar Guias-->
+    <!--Vista form-->
+    <record id="generate_guia_inter_form_view" model="ir.ui.view">
+        <field name="name">generate.guia.inter.form.view</field>
+        <field name="model">generate.guide.inter</field>
+        <field name="arch" type="xml">
+            <form strins="Guía Internacional">
+                <header>
+                    <button name="generate_guide" type="object" string="Generar Guía" states="draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,generate" statusbar_colors='{"active":"blue"}' string="Estado"/>
+                </header>
+                <sheet>
+                    <group string="Número de Guía" attrs="{'invisible': [('state','in',('draft',))]}">
+                        <h1>
+                            <field name="number_guia"  readonly="1" class="oe_inline" />
+                        </h1>
+                    </group>
+                    <group string="Lugar de Origen" col="4">
+                        <field name="full_name_o"  />
+                        <field name="ci_o" />
+                        <field name="email_o" />
+                        <field name="city_o" />
+                        <field name="address_o" />
+                        <field name="telephone_o" />
+                    </group>
+                    <group string="Lugar de Destino" col="4">
+                        <field name="full_name_d" />
+                        <field name="pais"/>
+                        <field name="ci_d" />
+                        <field name="email_d" />
+                        <!--label for="user"/>
+                            <div class="o_row">
+                                <field name="user"/>
+                                <span>@</span>
+                                <field name="hosting"/>
+                                <span>.</span>
+                                <field name="com"/>
+                            </div-->
+                        <field name="city_d" />
+                        <field name="address_d" />
+                        <field name="telephone_d" />
+                    </group>
+                    <group col="4">
+                        <field name="declared_value" />
+                        <field name="codigo_postal" />
+                    </group>
+                    <group string="Dimensiones" col="4">
+                        <field name="long" />
+                        <field name="high" />
+                        <field name="width" />
+                        <field name="unit_weight" />
+                        <field name="quantity" />
+                    </group>
+
+
+                    <field name="user_id" invisible="1" />
+                    <field name="date" invisible="1" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--Vista Tree-->
+    <record id="generate_guia_inter_tree_view" model="ir.ui.view">
+        <field name="name">generate.guia.inter.tree.view</field>
+        <field name="model">generate.guide.inter</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="number_guia"/>
+                <field name="full_name_o" string="Remitente"/>
+                <field name="full_name_d" string="Destinatario"/>
+                <field name="date"/>
+                <field name="state" string="Estado"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--Action-->
+    <record model="ir.actions.act_window" id="action_generate_guias_inter">
+        <field name="name">Guía Internacional</field>
+        <field name="res_model">generate.guide.inter</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--Menús-->
+
+    <!--Acción del menu-->
+    <menuitem
+         id="action_generate_guias_inter_menu"
+         parent="action_generate_guias_menu"
+         string="Guía Internacional"
+         sequence="2"
+         action="action_generate_guias_inter"
+    />
+
+</odoo>

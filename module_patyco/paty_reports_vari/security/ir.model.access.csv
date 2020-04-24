@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_paty_report_auxiliar_report_auxiliar,paty_report_auxiliar.report_auxiliar,model_auxiliar_report,,1,1,1,1

@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+     <record id="herencia_tipo_vista_formulario" model="ir.ui.view">
+        <field name="name">vista.tipo.formulario</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="after">
+                <field name="municipio_id" placeholder="Municipio"/>
+            </xpath>
+            
+        </field>
+     </record>
+
+  </data>
+</odoo>

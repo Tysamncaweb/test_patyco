@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Wizard para imprimir pdf-->
+    <record id="save_file_wizand_view_done" model="ir.ui.view">
+        <field name="name">save.file.wizard.form</field>
+        <field name="model">save.file.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Imprimir Guia Nacional">
+                <group cols="2">
+                    <div>
+                        <field name="file_name" invisible="1" />
+                        <field name="my_file" filename="file_name" nolabel="1" />
+                    </div>
+                </group>
+                <footer>
+                    <button special="cancel" string="Cerrar" type="object" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

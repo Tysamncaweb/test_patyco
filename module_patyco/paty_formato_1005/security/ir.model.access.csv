@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_conf_formato_10051,paty_formato_1005.config_formato_1005,model_account_config_formato_1005,,1,1,1,1
+access_conf_formato_1005_lines,paty_formato_1005.config_formato_1005,model_account_config_formato_1005_lines,,1,1,1,1
+access_formato_1005_wizard,paty_formato_1005.wizard_formato_1005,model_wizard_formato_1005,,1,1,1,1

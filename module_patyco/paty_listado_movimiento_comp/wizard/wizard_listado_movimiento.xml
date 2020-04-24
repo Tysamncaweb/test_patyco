@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!-- Wizard para imprimir reporte listado de movientos por comprobante y fecha-->
+        <record id="listado_movimiento_comprobante_id" model="ir.ui.view">
+       	    <field name="name"> listado movimiento por comprobante</field>
+            <field name="model">wizard.listado.movimiento</field>
+    	    <field name="arch" type="xml">
+    	    	 <form string="Listado de movimiento por comprobante">
+
+                     <group>
+                         <field name="type_report" widget='radio'/>
+
+                     </group>
+                     <group colspan="8" col="4">
+                             <field name="date_start" string="Fecha desde" attrs="{'invisible':[('type_report','=','comprobante')], 'required': [('type_report', 'in', ('fecha'))]}"/>
+                             <field name="date_end" string="Fecha hasta" attrs="{'invisible':[('type_report','=','comprobante')], 'required': [('type_report', 'in', ('fecha'))]}"/>
+                            <field name="comprobante" attrs="{'invisible':[('type_report','=','fecha')], 'required': [('type_report', 'in', ('comprobante'))]}"/>
+                            </group>
+                    <group>
+                        <field name="name" colspan="4" invisible="1"/>
+                        <field name="report" filename="name" colspan="4"/>
+                     </group>
+                     <!--group>
+                        <field name="name" colspan="4" invisible="1"/>
+                        <field name="report" filename="name" colspan="4"/>
+                     </group-->
+
+
+                <footer>
+                   <button name="print_listado_movimiento_pdf" string="Exportar PDF" type="object" class="oe_highlight" />
+                   <button name="print_analitico_xls" string="Exportar XLS" type="object" class="oe_highlight" />
+                   <button special="cancel" string="Cancel" class="oe_highlight" />
+                </footer>
+
+                </form>
+    	    </field>
+    	</record>
+
+        <record id="action_listado_movimiento_comprobante" model="ir.actions.act_window">
+        	<field name="name">Listado de movimiento por comprobante</field>
+        	<field name="res_model">wizard.listado.movimiento</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="listado_movimiento_comprobante_id"/>
+        	<field name="target">new</field>
+    	</record>
+
+        <menuitem id="menu_listado_movimientos"
+                  name="Listado de movimiento Comprobantes"
+                  parent="paty_report_tax.reportes_patyco"
+                  action="action_listado_movimiento_comprobante"
+                  groups="account.group_account_manager"
+        />
+
+    </data>
+</odoo>

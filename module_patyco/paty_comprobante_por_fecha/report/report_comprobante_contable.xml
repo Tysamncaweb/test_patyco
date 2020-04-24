@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record model="report.paperformat" id="paperformat_report_comprobante_contable">
+
+            <field name="name">paperformat.report.comprobante.contable</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_width">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_right">5</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+
+        </record>
+
+        <report
+            id = "action_report_comprobante_por_fecha"
+            model = "wizard.comprobante.contable.fecha"
+            string = "Reporte Comprobante Contable por Fecha"
+            report_type = "qweb-pdf"
+            paperformat="paperformat_report_comprobante_contable"
+            name = "paty_comprobante_por_fecha.report_comprobante_contable"
+            file = "paty_comprobantes_por_fecha.report_comprobante_contable"
+        />
+
+        <template id="report_comprobante_contable">
+              <t t-call="web.html_container">
+                    <!--t t-call="web.internal_layout"-->
+                        <div class="header" style="border-bottom: 2px solid black">
+                            <h3 class="text-center">Attendance Recap Report</h3>
+                            <h4 class="text-center">
+                                <strong>From</strong>:
+                                <t t-esc="date_start"/>
+                                <strong>To</strong>:
+                                <t t-esc="date_end"/>
+                            </h4>
+                        </div>
+                    </t>
+             <!--/t-->
+
+        </template>
+</odoo>

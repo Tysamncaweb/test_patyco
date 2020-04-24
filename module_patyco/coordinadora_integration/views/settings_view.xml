@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="coordinadora_settings_view_form" model="ir.ui.view">
+            <field name="name">coordinadora.settings.view.form</field>
+            <field name="model">coordinadora.settings</field>
+            <field name="arch" type="xml">
+                <form string="Settings" >
+                    <sheet>
+                        <div id="business_documents">
+                            <h2>Usuario de Coordinadora</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-5 o_setting_box">
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="user" string="Usuario" class="col-3 col-lg-3"/>
+                                                <field name="user" class="oe_inline"/>
+                                            </div>
+                                            <div class="mt16 row">
+                                                <label for="password" string="Clave" class="col-3 col-lg-3"/>
+                                                <field name="password" class="oe_inline" password="True"/>
+                                                <field name="password_sha256" invisible="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-5 o_setting_box">
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="id_cliente" string="Id del Usuario" class="col-4 col-lg-4"/>
+                                                <field name="id_cliente"/>
+                                            </div>
+                                            <div class="mt16 row">
+                                                <label for="nit_cliente" string="Nit del Usuario" class="col-4 col-lg-4"/>
+                                                <field name="nit_cliente"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <h2>Apikey de Coordinadora</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-7 o_setting_box">
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="apikey" string="Apikey" class="col-4 col-lg-4 "/>
+                                                <field name="apikey"/>
+                                            </div>
+                                            <div class="mt16 row">
+                                                <label for="password_apikey" string="Clave de Apikey" class="col-4 col-lg-4 "/>
+                                                <field name="password_apikey" class="oe_inline" password="True"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_coordinadora_integration_configuration" model="ir.actions.act_window">
+            <field name="name">Usuario y Apikey</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">coordinadora.settings</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <!--Sub-menu-->
+        <menuitem
+             id="coordinadora_menu_settings"
+             parent="coordinadora_menu_root"
+             name="Configuración"
+             sequence="50"
+        />
+
+        <!--Acción del menu-->
+        <menuitem
+             id="action_coordinadora_settings"
+             parent="coordinadora_menu_settings"
+             string="Configuración de Usuario"
+             sequence="0"
+             action="action_coordinadora_integration_configuration"
+        />
+
+</odoo>

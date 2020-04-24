@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="codes_danes_tree_view" model="ir.ui.view">
+        <field name="name">coordinadora.settings.codes.danes.tree</field>
+        <field name="model">coordinadora.settings.codes.danes</field>
+        <field name="arch" type="xml">
+            <tree string="Codigos Danes" create="false" delete="false" >
+                <field name="code_dane"/>
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="states" string="Estado"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="codes_danes_settings_action" model="ir.actions.act_window">
+        <field name="name">Códigos Danes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">coordinadora.settings.codes.danes</field>
+        <field name="view_mode">tree</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <!--sub menú code danes-->
+    <menuitem
+         id="action_settings_codes_danes_submenu"
+         name="Códigos danes"
+         parent="coordinadora_menu_settings"
+         string="Codigos Danes"
+         sequence="2"
+    />
+    <!--Acción del menu-->
+    <menuitem
+         id="action_settings_codes_danes"
+         parent="action_settings_codes_danes_submenu"
+         string="Codigos Danes"
+         sequence="1"
+         action="codes_danes_settings_action"
+    />
+
+</odoo>

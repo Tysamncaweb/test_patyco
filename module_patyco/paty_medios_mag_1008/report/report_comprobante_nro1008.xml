@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="reporte_templete_1008">
+
+       <t t-call="web.html_container" ><!-- realiza llamados a template propio de odoo -->
+         <t t-call="web.external_layout" ><!-- realiza llamados a template propio de odoo -->
+          
+            <div class="header"> PATYCO C.A / LOGO </div>
+            <div class="page">              
+
+              <table width="100%"  border="1" align="center">
+                   <tr>
+                      <td>2</td>        
+                   </tr>                   
+              </table>
+
+            </div>
+            <div class="footer"> Mi footer o pie de pagina </div>
+          
+         </t>
+       </t>
+     </template>
+
+    <report id="action_report_pdf_1008"
+        model="wizard.report.1008"
+        name="paty_medios_mag_1008.reporte_templete_1008"
+        file="paty_medios_mag_1008.reporte_templete_1008"
+        string="Reporte Contable nro 1008"
+        report_type="qweb-html"/>
+
+  </data>    
+</odoo>

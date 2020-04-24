@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <template id="template_formato_1005_id">
+            <t t-call="web.html_container">
+                <div class="header">
+                        <h3 align="center" ><strong>Formato 1005 Medios Magneticos</strong></h3>
+                </div>
+                    <div class="page">
+                        <table width="100%" border="1" align="center">
+                            <!--t t-if="type_report == 'fecha'"-->
+                                <tr>
+                                    <td>Tipo de Documento</td>
+                                    <td>Numero de Identificación</td>
+                                    <td>DV</td>
+                                    <td>Primer Apellido del informado</td>
+                                    <td>Segundo apellido del informado</td>
+                                    <td>Primer nombre del informado</td>
+                                    <td>Otros nombres del informado</td>
+                                    <td>Razón social informado</td>
+                                    <td>impuesto descontable</td>
+                                    <td>IVA resultante por devoluciones en venta anuladas, rescindidas o resueltas</td>
+                                </tr>
+                                <t t-foreach="datos_fecha" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o[0]"></span></td>
+                                            <td><span t-esc="o[1]"></span></td>
+                                            <td><span t-esc="o[2]"></span></td>
+                                            <td><span t-esc="o[3]"></span></td>
+                                            <td><span t-esc="o[4]"></span></td>
+                                            <td><span t-esc="o[5]"></span></td>
+                                            <td><span t-esc="o[6]"></span></td>
+                                            <td><t t-if="o[7] == 0">
+                                                    <span t-esc="'Cr'"></span>
+                                                </t>
+                                                <t t-if="o[8] == 0">
+                                                    <span t-esc="'Db'"></span>
+                                                </t>
+                                            </td>
+                                            <td><span t-esc="o[9]"></span></td>
+                                            <td><t t-if="o[7] == 0">
+                                                    <span t-esc="'{0:,.2f}'.format(o[8]).replace(',', 'X').replace('.', ',').replace('X', '.')"></span>
+                                                </t>
+                                                <t t-if="o[8] == 0">
+                                                    <span t-esc="'{0:,.2f}'.format(o[7]).replace(',', 'X').replace('.', ',').replace('X', '.')"></span>
+                                                </t>
+                                            </td>
+                                            <td><span t-esc="o[10]"></span></td>
+                                        </tr>
+                                    </t>
+
+
+                            <!--/t-->
+                             <t t-if="type_report == 'comprobante'">
+
+                                    <tr>
+                                        <td>Comprobante</td>
+                                        <td>Nombre</td>
+                                        <td>No. Registro</td>
+                                        <td>Cuenta</td>
+                                        <td>Fecha</td>
+                                        <td>Documento</td>
+                                        <td>Docto. Referencia</td>
+                                        <td>Detalle</td>
+                                        <td>Id</td>
+                                        <td>Nit</td>
+                                        <td>Valor</td>
+                                        <td>Valor Base</td>
+                                    </tr>
+                                    <t t-foreach="datos" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o[0]"></span></td>
+                                            <td><span t-esc="o[1]"></span></td>
+                                            <td><span t-esc="o[2]"></span></td>
+                                            <td><span t-esc="o[3]"></span></td>
+                                            <td><span t-esc="o[4]"></span></td>
+                                            <td><span t-esc="o[5]"></span></td>
+                                            <td><span t-esc="o[6]"></span></td>
+                                            <td><span t-esc="o[7]"></span></td>
+                                            <td><t t-if="o[8] == 0">
+                                                    <span t-esc="'Cr'"></span>
+                                                </t>
+                                                <t t-if="o[9] == 0">
+                                                    <span t-esc="'Db'"></span>
+                                                </t>
+                                            </td>
+                                            <td><span t-esc="o[10]"></span></td>
+                                            <td><t t-if="o[8] == 0">
+                                                    <span t-esc="'{0:,.2f}'.format(o[9]).replace(',', 'X').replace('.', ',').replace('X', '.')"></span>
+                                                </t>
+                                                <t t-if="o[9] == 0">
+                                                    <span t-esc="'{0:,.2f}'.format(o[8]).replace(',', 'X').replace('.', ',').replace('X', '.')"></span>
+                                                </t>
+                                            </td>
+                                            <td><span t-esc="o[11]"></span></td>
+                                        </tr>
+                                    </t>
+                             </t>
+                        </table>
+
+
+
+                    </div>
+            </t>
+        </template>
+       <report
+            id="action_template_formato_1005"
+            string="Listado de Movimiento por Comprobantes"
+            model="wizard.formato.1005"
+            file="paty_formato_1005.template_formato_1005_id"
+            report_type="qweb-html"
+            name="paty_formato_1005.template_formato_1005_id"/>
+</odoo>

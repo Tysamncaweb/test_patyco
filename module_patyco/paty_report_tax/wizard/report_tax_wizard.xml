@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+        <record id="view_tax_report_wizard" model="ir.ui.view">
+            <field name="name">tax.report.form</field>
+            <field name="model">tax.report</field>
+            <field name="arch" type="xml">
+                <form string="Análisis Base de Impuestos">
+                    <group colspan="2" col="2">
+                        <group>
+                            <field name="company" string="Empresa" colspan="4"/>
+                            <field name="target_movement" widget="radio" required="True"/>
+                        </group>
+                        <group>
+                            <field name="start_date" string="Fecha de inicio"/>
+                            <field name="end_date" string="Fecha Final"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="name" colspan="4" invisible="1"/>
+                        <field name="report" filename="name" colspan="4"/>
+                     </group>
+                    <footer>
+                        <button name="generate_tax_report" string="Exportar PDF" type="object" class="oe_highlight"/>
+                        <button name="generate_tax_xls" string="Exportar XLS" type="object" class="oe_highlight" />
+                        <button string="Cancel" class="oe_highlight" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_tax_report" model="ir.actions.act_window">
+        	<field name="name">Análisis Base de Impuestos</field>
+        	<field name="res_model">tax.report</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_tax_report_wizard"/>
+        	<field name="target">new</field>
+    	</record>
+
+        <menuitem
+                 id="reportes_patyco"
+                 parent="account.menu_finance_reports"
+                 name="Reportes"
+                 sequence="0"
+        />
+        <menuitem id="report_tax" name="Reporte Análisis Base de Impuestos" parent="reportes_patyco" action="action_tax_report" sequence="1"/>
+    </data>
+</odoo>

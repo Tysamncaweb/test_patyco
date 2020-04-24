@@ -1,0 +1,56 @@
+<odoo>
+  <data>
+      <record id="config_formato_1005_tree" model="ir.ui.view">
+            <field name="name">Configuración Formato 1005</field>
+            <field name="model">account.config.formato.1005</field>
+            <field name="arch" type="xml">
+                <tree string="Configuración de Formato 1005 medios magneticos">
+                    <!--field name="cuenta_contable"/-->
+                    <field name="tipo_iva"/>
+                </tree>
+            </field>
+      </record>
+
+       <record id="config_formato_1005_form" model="ir.ui.view">
+            <field name="name">Configuración Formato 1005</field>
+            <field name="model">account.config.formato.1005</field>
+            <field name="arch" type="xml">
+              <form string="Configuración de Formato 1005 medios magneticos">
+                <sheet>
+                    <group>
+                        <field name="tipo_iva"/>
+                    </group>
+                  <group>
+                    <field name="cuentas_lineas" widget="one2many_list" nolabel="1">
+                        <tree string="Account Mapping" editable="bottom">
+                            <field name="account_src_id"/>
+                        </tree>
+                        <form string="Account Mapping">
+                            <field name="account_src_id"/>
+
+                        </form>
+                    </field>
+                  </group>
+                </sheet>
+              </form>
+            </field>
+      </record>
+
+     <record id="action_config_formato_1005" model="ir.actions.act_window">
+            <field name="name">Configuración Formato 1005</field>
+            <field name="res_model">account.config.formato.1005</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+             <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Crea un nuevo registro</p>
+            </field>
+      </record>
+
+      <menuitem
+                 id="menu_config_formato_1005"
+                 parent="paty_config_medios_mag.menu_medios_magneticos"
+                 name="Configuración Formato 1005"
+				 sequence="5"
+                 action="action_config_formato_1005"/>
+  </data>
+</odoo>

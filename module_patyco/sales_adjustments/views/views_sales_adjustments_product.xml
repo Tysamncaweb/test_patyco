@@ -1,0 +1,164 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record id="product_template_form_sales_view" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="priority">2</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group_standard_price']" >
+                        <field name="company_id"/>
+                        <field name="Packaging_unit_id" />
+                        <label for="measurements" attrs="{'invisible': [('Quantity_for_Freight', '=', True)]}"/>
+                        <div class="o_address_format" attrs="{'invisible': [('measurements', '=', True)]}">
+                            <field name="measurements" class="btn-outline-secondary o_address_zip" style="vertical-align:baseline"/> x
+                            <field name="measurements_campoa" class="btn-outline-secondary o_address_zip" style="vertical-align:baseline"/> x
+                            <field name="measurements_campob" class="btn-outline-secondary o_address_zip" style="vertical-align:baseline"/>
+                        </div>
+                        <field name="type_of_packaging_id" />
+                        <label for="Quantity_for_Freight" attrs="{'invisible': [('Quantity_for_Freight', '=', True)]}"/>
+                        <div attrs="{'invisible': [('Quantity_for_Freight', '=', True)]}">
+                            <field name="Quantity_for_Freight" class="oe_inline" style="vertical-align:baseline"/> Unidad / Unidades
+                        </div>
+                </xpath>
+      </field>
+    </record>
+
+
+    <record id="product_template_form_account_view" model="ir.ui.view">
+            <field name="name">product.normal.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="account.product_template_form_view"/>
+            <field name="arch" type="xml">
+                 <field name="property_account_creditor_price_difference" position="after">
+                        <field name="freight_value_main_city_id" domain="[('freight_value_main_city_id','=',freight_value_main_city_id)]"/>
+                        <field name="suggested_price_without_freight"/>
+                 </field>
+             </field>
+    </record>
+
+
+     <record id="variants_tree_patyco_view" model="ir.ui.view">
+        <field name="name">patyco.products.tree</field>
+        <field name="model">product.attribute.value.prueba</field>
+        <field name="arch" type="xml">
+            <tree string="Variant Values" editable="bottom" >
+                <field name="code_prudct_patyco_id" />
+                <field name="type_of_packaging_id" />
+            </tree>
+        </field>
+     </record>
+
+      <record id="variants_form_patyco_view_tru" model="ir.ui.view">
+        <field name="name">patyco.products.form</field>
+        <field name="model">product.attribute.value.prueba</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4" >
+                <field name="type_of_packaging_id" string="Tipo de Empaque"/>
+                </group>
+            </form>
+        </field>
+       </record>
+
+
+
+    <record id="product_patyco_action" model="ir.actions.act_window">
+            <field name="name">PatycoSAS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.attribute.value.prueba</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sales_adjustments.variants_tree_patyco_view"/>
+            <!--field name="search_view_id" ref="sales_adjustments.variants_tree_view"/-->
+        </record>
+
+
+     <menuitem id="sales_team_patyco" name="Product Patyco" parent="sale.menu_sale_config" action="product_patyco_action" sequence="82"/>
+
+
+
+        <record id="invoice_form_view" model="ir.ui.view">
+            <field name="name">invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">2</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_untaxed']" position="before" >
+                        <field name="total_discount" invisible="1"/>
+                        <field name="amount_undiscounted" invisible="1"/>
+                        <field name="amount_total_" invisible="1" force_save="1"/>
+                </xpath>
+      </field>
+    </record>
+
+
+        <record id="sequence_form_view" model="ir.ui.view">
+            <field name="name">sequence.form.inherit</field>
+            <field name="model">ir.sequence</field>
+            <field name="inherit_id" ref="base.sequence_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='use_date_range']" position="after" >
+                      <field name="dian_type" />
+                </xpath>
+                <xpath expr="//sheet/notebook/page/field/tree/field[@name='number_next_actual']" position="after" >
+                    <field name="dian_range_hasta" class="text-right" align="right" string="Numero hasta"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    <record model="ir.ui.view" id="view_invoice_line_tree_inherit">
+            <field name="name">account.invoice.line.tree.inherit</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="price_unit_tax"  invisible="1" />
+                </xpath>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="invoice_form_inherit">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
+                     <field name="price_unit_tax" string="tax Bs." readonly="1" force_save="1" invisible="1" />
+                </xpath>
+            </field>
+        </record>
+
+       <record id="invoice_supplier_form_view" model="ir.ui.view">
+                    <field name="name">account.invoice.supplier.form</field>
+                    <field name="model">account.invoice</field>
+                    <field name="priority">2</field>
+                    <field name="inherit_id" ref="account.invoice_supplier_form"/>
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='amount_untaxed']" position="before" >
+                                <field name="amount_total_" invisible="1" force_save="1"/>
+                        </xpath>
+                        <xpath expr="//field[@name='discount']" position="before">
+                            <field name="price_unit_tax" string="tax Bs." readonly="1" force_save="1" invisible="1"/>
+                    </xpath>
+                </field>
+        </record>
+
+
+                    <!--xpath expr="//field[@name='amount_total']" position="after">
+                        <field name="amount_total_"  force_save="1" invisible="0" />
+                    </xpath-->
+
+
+
+        <menuitem id="purchase_report_detail"
+                  name="Reporte de compra detallada"
+                  sequence="99"
+                  parent="purchase.menu_purchase_root" action="account.action_account_invoice_report_all"/>  <!--action="account.action_account_invoice_report_all" -purchase.menu_purchase_config-menu_purchase_root/-->
+
+
+  </data>
+</odoo>

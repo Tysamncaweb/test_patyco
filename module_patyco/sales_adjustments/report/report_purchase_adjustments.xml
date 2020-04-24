@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="header_report_purchase_adjustments">
+            <div class="header">
+                 <table cellspacing="0" cellpadding="0" border="0" style="width:100%; height:40px;">
+                    <tr style="height:40px;">
+                        <td  style="width:50%;"><br/><br/>
+                             <img t-att-src="'data:image/png;base64,%s' %(to_text(res_company.logo))" style="width:155px; height:155px; margin-left:14px; margin-top:0px; margin-bottom:12px;"/> <!--style="width:260px; height:80px; margin-top:40px; margin-bottom:0px;"/-->
+                        </td>
+                        <td style="width:100%; font-size: 14px;" class="text-right"><br/><br/>
+                                <h4><span t-esc="res_company.name" /></h4>
+                                <span t-esc="res_company.street"/>
+                                <span t-esc="res_company.city"/><br></br>
+                                <span t-esc="res_company.zip"/><br></br>
+                                <span t-esc="res_company.country_id.name"/>
+                                <span t-esc="res_company.state_id.name"/><br></br>
+                                <span t-esc="res_company.phone"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </template>
+
+
+
+
+
+   <template id="report_purchaseorder_document">
+     <t t-call="sales_adjustments.header_report_purchase_adjustments"/><br/><br/><br/><br/>
+        <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+
+            <div class="page">
+                <div class="oe_structure"/>
+
+                <table width="100%">
+                    <td style="text-align:center;"><h3>COTIZACIÓN</h3></td>
+                </table><br/><br/>
+
+                 <table width="100%">
+                    <td style="text-align:left;"><strong>Fecha: </strong>
+                    <span t-field="o.date_order"/></td><tr/>
+                    <td style="text-align:left;"><strong>Nombre: </strong>
+                    <span t-field="o.partner_id"/></td>
+                </table><br/><br/><br/><br/>
+
+
+                  <table width="100%"  style="border:1px solid #000000;">
+                         <thead>
+                            <tr>
+                                <th style="border:1px solid #000000;">Quantity</th>
+                                <th style="border:1px solid #000000;">Product</th>
+                                <th style="border:1px solid #000000;">Unit Price</th>
+                                <th style="border:1px solid #000000;">Total Price</th>
+                            </tr>
+                         </thead>
+
+                         <t t-set="current_subtotal" t-value="0"/>
+
+                         <tbody>
+                                <t t-foreach="o.order_line" t-as="line" >
+                                   <tr>
+                                    <td style="border-right:1px solid #000000;"><span t-field="line.product_qty"/></td>
+                                         <td style="border-right:1px solid #000000; text-align:center;"><span t-field="line.name"/></td>
+                                         <td style="text-align: right;"><span t-field="line.price_unit"/></td>
+                                         <td style="border-left:1px solid #000000; text-align:right;">
+                                             <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                             <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                         </td>
+                                    </tr>
+                                </t>
+                         </tbody>
+                 </table><br/><br/><br/>
+
+
+                 <table width="100%">
+                    <td style="text-align:left;">Precios con IVA incluido</td><tr/>
+                    <td style="text-align:left;">Precios no incluyen flete.</td>
+                </table><br/><br/>
+
+                  <table width="100%">
+                    <td style="text-align:left;">Vigencia 30 días</td>
+                </table><br/><br/>
+
+                <table width="100%">
+                    <td style="text-align:left;"><strong>Forma de pago: </strong> Efectivo o consignación Banco BANCOLOMBIA</td><tr/><tr/>
+                    <td style="text-align:left;">CUENTA AHORROS  N°. 259-156567-41 </td><tr/>
+                    <td style="text-align:left;">A nombre de PATYCO SAS  </td><tr/><tr/>
+                    <td style="text-align:left;">NIT:  900.672.558  </td><tr/>
+                </table><br/><br/>
+
+            </div>
+
+
+       <p t-field="o.notes"/>
+
+
+       <div class="footer">
+            <div style="border-top: 1px solid black; text-align:center;">
+                <div class="col-xs-3 col-xs-offset-9" style="text-align:center;">
+                    <ul class="list-inline" style="margin-top:10px;">
+                        <li>
+                            <strong>Tlf:</strong><span t-esc="res_company.phone"/><td>&amp;nbsp;</td>
+                            <strong>Web:</strong><span t-esc="res_company.website"/><td>&amp;nbsp;</td>
+                            <strong>E-mail:</strong><span t-esc="res_company.email"/><td>&amp;nbsp;</td>
+                        </li>
+                        <li>Pag:
+                            <span class="page"/>/
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+
+
+    <template id="report_purchaseorder_inherit" inherit_id="purchase.report_purchaseorder_document">
+        <t t-call="web.external_layout" position="replace">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="sales_adjustments.report_purchaseorder_document"/>
+                </t>
+        </t>
+    </template>
+
+
+
+    <template id="report_purchasequotation_document">
+        <t t-call="sales_adjustments.header_report_purchase_adjustments"/><br/><br/><br/><br/><br/><br/>
+            <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+
+            <div class="page">
+                <div class="oe_structure"/>
+
+                <h2>Request for Quotation <span t-field="o.name"/></h2><br/><br/>
+
+                <table width="100%">
+                     <td style="text-align:left;"><strong>Fecha: </strong>
+                     <span t-field="o.date_order"/></td><tr/>
+                     <td style="text-align:left;"><strong>Nombre: </strong>
+                     <span t-field="o.partner_id"/></td>
+                </table><br/><br/><br/><br/>
+
+                <table width="100%"  style="border:0px solid #C0C0C0;">
+                    <thead>
+                        <tr>
+                            <th><strong>Description</strong></th>
+                            <th class="text-center"><strong>Expected Date</strong></th>
+                            <th class="text-right"><strong>Qty</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.order_line" t-as="order_line">
+                            <td>
+                                <span t-field="order_line.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="order_line.date_planned"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="order_line.product_qty"/>
+                                <span t-field="order_line.product_uom" groups="uom.group_uom"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p t-field="o.notes"/>
+
+                <div class="oe_structure"/>
+              </div>
+
+
+     <div class="footer">
+         <div style="border-top: 1px solid black; text-align:center;">
+             <div class="col-xs-3 col-xs-offset-9" style="text-align:center;">
+                 <ul class="list-inline" style="margin-top:10px;">
+                     <li>
+                         <strong>Tlf:</strong><span t-esc="res_company.phone"/><td>&amp;nbsp;</td>
+                         <strong>Web:</strong><span t-esc="res_company.website"/><td>&amp;nbsp;</td>
+                         <strong>E-mail:</strong><span t-esc="res_company.email"/><td>&amp;nbsp;</td>
+                     </li>
+                     <li>Pag:
+                         <span class="page"/>/
+                         <span class="topage"/>
+                     </li>
+                 </ul>
+             </div>
+         </div>
+     </div>
+
+    </template>
+
+
+    <template id="report_purchasequotation_inherit" inherit_id="purchase.report_purchasequotation_document">
+        <t t-call="web.external_layout" position="replace">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="sales_adjustments.report_purchasequotation_document"/>
+                </t>
+        </t>
+    </template>
+
+
+
+
+
+</odoo>
+

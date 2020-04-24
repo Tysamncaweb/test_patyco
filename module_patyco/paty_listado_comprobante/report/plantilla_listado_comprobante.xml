@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <template id="template_listado_comprobante">
+            <t t-call="web.html_container">
+                <div class="header">
+                        
+                        <h3 align="center" >
+                          <strong> PATYCO S.A.S  900.672.558-5</strong>
+                          <p>Listado de Comprobantes</p>
+                           <button name="print_diario_xls" string="Imprimir en Excel" type="action"/>
+                        </h3>
+                </div>
+                    <div class="page">                      
+
+                        <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="table table-bordered mb64">
+                            <tr class="text-left">
+                                <td><strong>Comprobante</strong></td>
+                                <td><strong>Nombre</strong></td>
+                                <td><strong>Maneja Consecutivo</strong></td>
+                                <td><strong>Nro. Consecutivo</strong></td>
+                                <!--td>Consecutivo Obligatorio</td-->
+                                <td><strong>Maneja Codificación</strong></td>
+                            </tr>
+                            <t t-set="mensaje" t-value="'N'"/>
+                            <t t-set="mensaje_cod" t-value="'N'"/>
+                            <t t-foreach="data" t-as="o">
+                            <tr>
+                                <td align='center'><span t-field="o.correlativo"/></td>
+                                <td><span t-field="o.name"/></td>
+                                <t t-if="o.sequence_id.active == True">
+                                  <t t-set="mensaje" t-value="'S'"/>
+                                </t>
+                                <td align='center'><span t-esc="mensaje"/></td>                                
+                                <td align='center'><span t-field="o.sequence_number_next"/></td>
+                                <!--td>5</td-->
+                                <t t-if="o.code">
+                                  <t t-set="mensaje_cod" t-value="'S'"/>
+                                </t>
+                                <td align='center'><span t-esc="mensaje_cod"/></td>
+                            </tr>  
+                            </t>
+                        </table>
+                    </div>
+            </t>
+        </template>
+
+        <!--record id="herencia_tipo_vista_arbol" model="ir.ui.view">
+          <field name="name">vista.tipo.arbol</field>
+          <field name="model">account.journal</field>
+          <field name="inherit_id" ref="account.view_account_journal_tree"/>
+          <field name="arch" type="xml">
+          
+           <xpath expr="//field[@name='type']" position="after">
+             <button name="print_diario_xls" string="Imprimir en Excel"/>            
+          </xpath>
+
+          </field>
+        </record-->
+
+       <report
+            id="action_listado_comprobante"
+            string="Listado de Comprobantes (PDF)"
+            model="account.journal"
+            file="paty_listado_comprobante.template_listado_comprobante"
+            report_type="qweb-html"
+            name="paty_listado_comprobante.template_listado_comprobante"/>       
+        
+</odoo>

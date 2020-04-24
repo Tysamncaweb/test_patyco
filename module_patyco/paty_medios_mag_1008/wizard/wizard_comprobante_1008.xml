@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       
+      <!-- Wizard para imprimir reporte comprobante 1007-->
+    <record id="report_1008" model="ir.ui.view">
+            <field name="name">Reporte Comprobante 1008</field>
+            <field name="model">wizard.report.1008</field>
+            <field name="arch" type="xml">
+                 <form string="Reporte Comprobante 1008">
+                     <group colspan="8" col="4">
+                         <field name="date_start" string="Fecha inicio" required="1"/>
+                         <field name="date_end" string="Fecha fin" required="1"/>
+                         <field name="formato_id" string="Formatos" required="1"/>
+                         <!--field name="id_account" string="Cuenta" required="1"/-->                         
+                     </group>
+                     <group>
+                        <field name="name" colspan="4" invisible="1"/>
+                        <field name="report" filename="name" colspan="4"/>
+                     </group>
+                <footer>
+                   <button name="print_1008_xls" string="Exportar XLS" type="object" class="oe_highlight" />
+                   <button special="cancel" string="Cancel" class="oe_highlight" />
+                </footer>
+
+                </form>
+            </field>
+    </record>   
+
+    <record id="action_report_1008" model="ir.actions.act_window">
+        <field name="name">Reporte 1008</field>
+        <field name="res_model">wizard.report.1008</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="report_1008"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_report_1009" model="ir.actions.act_window">
+        <field name="name">Reporte 1009</field>
+        <field name="res_model">wizard.report.1008</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="report_1008"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="1008 Saldo de cuentas por cobrar al 31 de Diciembre"
+        parent="paty_medios_mag_1007.menu__reports_rep_med_mag"
+        name="1008 Saldo de cuentas por cobrar al 31 de Diciembre"
+        sequence="8"
+        action="action_report_1008"/>
+
+    <menuitem
+        id="1009 Saldo de cuentas por pagar al 31 de Diciembre"
+        parent="paty_medios_mag_1007.menu__reports_rep_med_mag"
+        name="1009 Saldo de cuentas por pagar al 31 de Diciembre"
+        sequence="9"
+        action="action_report_1009"/>
+    </data>
+</odoo>

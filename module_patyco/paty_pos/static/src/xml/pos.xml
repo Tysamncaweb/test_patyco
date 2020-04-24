@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="point_of_sale.template" xml:space="preserve">
+ <t t-extend="PosTicket">
+        <t t-jquery='.pos-sale-ticket' t-operation='replace'>
+            <div class="pos-sale-ticket">
+                 <div class="pos-center-align">
+                      <img src='/web/binary/company_logo' style="width:40%; text-align:center;"/>
+                     <h4 style="text-align:center;"><t t-esc="widget.pos.company.name"/><br/></h4>
+                 </div>
+                <table class="pos-left-align" width="100%">
+                    <tr class="pos-left-align">
+                        <td style="width:40%">Nit:</td>
+                        <td style="width:60%"><t t-esc="widget.pos.company.vat || ''"/></td>
+                    </tr>
+                    <tr class="pos-left-align">
+                        <td style="width:40%">Dirección:</td>
+                        <td style="width:60%">
+                            <t t-esc="widget.pos.company.street" t-if="widget.pos.company.street" /><br />
+                            <t t-esc="widget.pos.company.zip" t-if="widget.pos.company.zip"  />
+                            <t t-esc="widget.pos.company.city" t-if="widget.pos.company.city"  />
+                            <t t-if="widget.pos.company.state_id">
+                                (<t t-esc="widget.pos.company.state_id[1]" />)
+                            </t>
+                            <br />
+                            <t t-if="widget.pos.company.country_id">
+                                <t t-esc="widget.pos.company.country_id[1]" />
+                            </t>
+                        </td>
+                    </tr>
+                    <tr class="pos-left-align">
+                        <td style="width:40%">Teléfono:</td>
+                        <td style="width:60%"><t t-esc="widget.pos.company.phone || ''"/></td>
+                    </tr>
+                </table><br/>
+                <table class="pos-left-align">
+                    <tr>
+                        <td class="pos-left-align" style="width:50%">
+                            <t t-if="widget.pos.config.iface_l10n_es_simplified_invoice and !order.is_to_invoice()">
+                                <br/><span><strong>FACTURA DE VENTA No</strong> </span>
+                            </t>
+                        </td>
+                        <td class="pos-left-align" style="width:50%"><strong><t t-esc="order.name"/></strong></td>
+                    </tr>
+                    <tr>
+                        <td class="pos-left-align" style="width:50%" colspan="2"><strong>Fecha:</strong>&amp;nbsp;&amp;nbsp; <t t-esc="order.formatted_validation_date"/></td>
+
+                    </tr>
+                    <tr>
+                        <t t-if="order.get_client()">
+                            <td class="pos-left-align" style="width:50%" colspan="2"><strong>Cliente/Nit:&amp;nbsp;&amp;nbsp;<t t-esc="order.get_client().vat || ''"/></strong></td>
+                        </t>
+                    </tr>
+                    <tr>
+                        <t t-if="order.get_client()">
+                             <td class="pos-center-align" style="width:50%; text-transform:uppercase;" colspan="2">
+                                 <strong><t t-esc="order.get_client().name || ''"/></strong>
+                            </td>
+                        </t>
+                    </tr>
+                </table><br/>
+                <table class='receipt-orderlines'>
+                    <tr class="pos-center-align">
+                        <th style="width:30%;" >ARTICULO</th>
+                        <th style="width:15%;">CANT</th>
+                        <th style="width:20%;">Vr. Unit</th>
+                        <th style="width:25%;">Vr. Total</th>
+                    </tr>
+                    <tr t-foreach="orderlines" t-as="orderline">
+                    <td class="pos-left-align">
+                        <t t-esc="orderline.get_product().display_name"/>
+                         <t t-if="orderline.get_discount() > 0">
+                            <div class="pos-disc-font">
+                                With a <t t-esc="orderline.get_discount()"/>% discount
+                            </div>
+                        </t>
+                    </td>
+                    <td class="pos-center-align">
+                        <t t-esc="orderline.quantityStr"/>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(orderline.get_unit_price())"/>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(orderline.get_display_price())"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pos-right-align" colspan="3"><strong>SUBTOTAL</strong></td>
+                    <td class="pos-right-align" colspan="1">
+                        <t t-esc="widget.format_currency(order.get_total_without_tax())"/>
+                    </td>
+                </tr>
+                <tr>
+                    <t t-if="order.get_total_discount() > 0">
+                        <td class="pos-right-align" colspan="3"><strong>DESCUENTO</strong></td>
+                        <td class="pos-right-align" colspan="1">
+                            <t t-esc="widget.format_currency(order.get_total_discount())"/>
+                        </td>
+                    </t>
+                </tr>
+                <t t-foreach="order.get_tax_details()" t-as="taxdetail">
+                    <tr>
+                        <td class="pos-right-align" colspan="3"><strong><t t-esc="taxdetail.name" /></strong></td>
+                        <td class="pos-right-align" colspan="1">
+                            <t t-esc="widget.format_currency(taxdetail.amount)" />
+                        </td>
+                    </tr>
+
+                </t>
+                <tr t-if="order.get_tax_details().name == 'INC/IPOCONS'">
+                    <td class="pos-right-align" colspan="3"><strong>INC/IPOCONS</strong></td>
+                    <td class="pos-right-align" colspan="1">
+                        <t t-esc="widget.format_currency(taxdetail.amount)"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pos-right-align" colspan="3"><strong>NETO</strong></td>
+                    <td class="pos-right-align" colspan="1">
+                        <t t-esc="widget.format_currency(order.get_total_with_tax())"/>
+                    </td>
+                </tr>
+
+                    <t t-set="cont" t-value="0"/>
+                <t t-foreach="paymentlines" t-as="line" class='receipt-paymentlines'>
+                  <tr>
+                      <t t-if="cont == 0">
+                          <td><h4 class="pos-left-align"><strong>FORMA DE PAGO</strong></h4></td>
+                          <td class="pos-right-align" colspan="2">
+                              <strong><t t-esc="line.name"/></strong>
+                          </td>
+                          <td class="pos-right-align">
+                              <t t-esc="widget.format_currency(line.get_amount())"/>
+                          </td>
+                      </t>
+                      <t t-if="cont != 0">
+                          <td>&amp;nbsp;</td>
+                           <td class="pos-right-align" colspan="2">
+                              <strong><t t-esc="line.name"/></strong>
+                          </td>
+                          <td class="pos-right-align">
+                              <t t-esc="widget.format_currency(line.get_amount())"/>
+                          </td>
+                      </t>
+
+                  </tr>
+                    <t t-set="cont" t-value="cont+1"/>
+
+                </t>
+                <tr>
+                    <td class="pos-right-align" colspan="3"><strong>Cambio</strong></td>
+                    <td class="pos-right-align">
+                         <t t-esc="widget.format_currency(order.get_change())"/>
+                    </td>
+                </tr>
+                </table><br/>
+                <table style="width:100%;">
+                     <tr>
+                         <td style="width:60%;">Factura por computador</td>
+                         <td style="width:40%;">POS HABILITACIÓN</td>
+                     </tr>
+                     <tr>
+                        <td style="width:100%;" colspan="2">IVA RÉGIMEN COMÚN</td>
+                     </tr>
+                    <tr>
+                        <td style="width:60%;">Formulario DIAN No.<t t-esc="widget.pos.config.l10n_es_simplified_invoice_dian_type || ''"/></td>
+                        <td style="width:40%;">Fecha <t t-esc="widget.pos.config.l10n_es_simplified_invoice_date_from || ''"/></td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">RANGO NUMERICO DEL <t t-esc="widget.pos.config.l10n_es_simplified_invoice_number_next_actual || ''"/></td>
+                        <td style="width:40%;">A <t t-esc="widget.pos.config.l10n_es_simplified_invoice_dian_range_hasta || ''"/></td>
+                    </tr>
+                    <tr>
+                        <strong><td class="pos-center-align" style="width:100%;" colspan="2">Mercancía en promoción No tiene cambio</td></strong>
+                    </tr>
+                    <tr>
+                        <strong><td class="pos-center-align" style="width:100%;" colspan="2">Para cambio o reclamos presentar la Factura Original</td></strong>
+                    </tr>
+                    <tr>
+                        <strong><td class="pos-center-align" style="width:100%;" colspan="2">Tiempo máximo cambios 8 (ocho) días</td></strong>
+                    </tr>
+                    <tr>
+                        <strong><td class="pos-center-align" style="width:100%;" colspan="2">Gracias por su compra</td></strong>
+                    </tr>
+                    <tr>
+                        <td class="pos-right-align" style="width:100%;" colspan="2"><strong>Usuario: </strong><t t-esc="widget.pos.get_cashier().name"/></td>
+                    </tr>
+                </table>
+             </div>
+        </t>
+ </t>
+</templates>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="update_codes_danes_wizard_view" model="ir.ui.view">
+        <field name="name">coordinadora.settings.update.codes.danes.wizard.form</field>
+        <field name="model">coordinadora.settings.update.codes.danes.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Actualizar codigos danes">
+                <field invisible="1" name="state"/>
+                <div states="choose">
+                    <span class="o_form_label">Para actualizar los <b>Códigos Danes</b> y verificar las ciudades disponibles, por favor pulse el botón <b>Actualizar</b>.</span>
+                </div>
+                <div states="get">
+                    <field name="name" readonly="1" class="o_form_label"/>
+                </div>
+                <footer states="choose">
+                    <button name="generate_update_code_danes" type="object" string="Actualizar"/>
+                    <button special="cancel" string="Cerrar" type="object" />
+                </footer>
+                <footer states="get">
+                    <button special="cancel" string="Cerrar" type="object" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="update_codes_danes_settings_action" model="ir.actions.act_window">
+        <field name="name">Actualizar</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">coordinadora.settings.update.codes.danes.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_type">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <!--Acción del menu-->
+    <menuitem
+         id="action_update_settings_codes_danes_menu"
+         parent="action_settings_codes_danes_submenu"
+         string="Actualizar"
+         sequence="2"
+         action="update_codes_danes_settings_action"
+    />
+
+</odoo>

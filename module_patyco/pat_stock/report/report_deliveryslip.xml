@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="deliveryslip_layout_headers_reception">
+        <div class="header">
+            <div class="container-fluid">
+            <div style="border-bottom: 3px solid #AA1917">
+                <div class="row" style="width: 100%">
+                    <div class="col-3">
+                        <img t-att-src="'data:image/png;base64,%s' %(to_text(res_company.logo))" style="width:155px; height:155px; margin-left:14px; margin-top:0px; margin-bottom:12px;"/>
+                    </div>
+                    <div class="col-4" style="margin-top:13px; font-size:16px"><p><b>RECEPCIÓN DE PRODUCTOS</b></p></div>
+                    <div class="col-5" style="margin-top:13px;">
+                        <p><b>
+                            <span t-field="o.company_id.name"/><br/>
+                            <span t-field="o.company_id.phone"/><br/>
+                            <span t-field="o.company_id.website"/><br/>
+                            <span t-field="o.company_id.street"/>, <span t-field="o.company_id.city"/><br/>
+                            <span t-field="o.company_id.country_id.name"/></b>
+                        </p>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="deliveryslip_layout_headers_order">
+        <div class="header">
+            <div class="container-fluid">
+            <div style="border-bottom: 3px solid #AA1917">
+                <div class="row" style="width: 100%">
+                    <div class="col-3">
+                        <img t-att-src="'data:image/png;base64,%s' %(to_text(res_company.logo))" style="width:155px; height:155px; margin-left:14px; margin-top:0px; margin-bottom:12px;"/>
+                    </div>
+                    <div class="col-4" style="margin-top:13px; font-size:16px"><p><b>ORDEN DE ENTREGA</b></p></div>
+                    <div class="col-5" style="margin-top:13px;">
+                        <p><b>
+                            <span t-field="o.company_id.name"/><br/>
+                            <span t-field="o.company_id.phone"/><br/>
+                            <span t-field="o.company_id.website"/><br/>
+                            <span t-field="o.company_id.street"/>, <span t-field="o.company_id.city"/><br/>
+                            <span t-field="o.company_id.country_id.name"/></b>
+                        </p>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_delivery_reception">
+        <t t-call="web.html_container">
+            <t t-call= "pat_stock.deliveryslip_layout_headers_reception"/>
+            <div class="page" >
+                <div class="article">
+                    <br/>
+                    <div class="container-fluid">
+                        <div style="border-bottom: 3px solid #AA1917;">
+                            <div class="row" style="width: 100%;">
+                                <div class="col-7" style="font-size:18px; text-align: right;"><p><b>Proveedor:</b></p></div>
+                                <div class="col-5">
+                                    <p><b>
+                                        <span t-field="o.partner_id.name"/><br/>
+                                        <span t-field="o.partner_id.street"/><br/></b>
+                                    </p>
+                                </div>
+                                <br/>
+                                </div>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-7" style="font-size:18px; text-align: right;"><p><b>Teléfono:</b></p></div>
+                                <div class="col-5">
+                                    <p><b><span  style="font-size:18px;" t-field="o.partner_id.phone"/><br/></b></p>
+                                </div>
+                            </div>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-12" style="font-size:28px;text-align: left;"><p><b><span t-field="o.name"/></b></p></div>
+                                <br/>
+                            </div>
+                        </div>
+                        <div style="border-bottom: 3px solid #AA1917;">
+                            <div class="row">
+                                <div class="col-8" style="font-size:18px;"><p><b>ORDEN [ORIGEN]</b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b>FECHA</b></p></div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-8" style="font-size:18px;"><p><b><span t-field="o.origin"/></b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b><span t-field="o.scheduled_date"/></b></p></div>
+                            </div>
+                        </div>
+                        <div style="border-bottom: 3px solid #AA1917;">
+                            <div class="row">
+                                <div class="col-4" style="font-size:18px;"><p><b>PRODUCTO</b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b>CANTIDAD PEDIDA</b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b>CANTIDAD ENTREGADA</b></p></div>
+                            </div>
+                            <br/>
+                            <t t-foreach="o.move_lines" t-as="lines">
+                                <div class="row">
+                                    <div class="col-4" style="font-size:18px;"><p><span t-field="lines.product_id.name"/></p></div>
+                                    <div class="col-4" style="font-size:18px;"><p><span t-esc="'%.0f'% lines.product_uom_qty"/> <span t-field="lines.product_uom"/></p></div>
+                                    <div class="col-4" style="font-size:18px;"><p><span t-esc="'%.0f'% lines.quantity_done"/> <span t-field="lines.product_uom"/></p></div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+    <template id="report_delivery_order">
+        <t t-call="web.html_container">
+            <t t-call= "pat_stock.deliveryslip_layout_headers_order"/>
+            <div class="page" >
+                <div class="article">
+                    <br/>
+                    <div class="container-fluid">
+                        <div style="border-bottom: 3px solid #AA1917;">
+                            <div class="row" style="width: 100%;">
+                                <div class="col-7" style="font-size:18px; text-align: right;"><p><b>Cliente:</b></p></div>
+                                <div class="col-5">
+                                    <p><b>
+                                        <span t-field="o.partner_id.name"/><br/>
+                                        <span t-field="o.partner_id.street"/><br/></b>
+                                    </p>
+                                </div>
+                                <br/>
+                                </div>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-7" style="font-size:18px; text-align: right;"><p><b>Teléfono:</b></p></div>
+                                <div class="col-5">
+                                    <p><b><span  style="font-size:18px;" t-field="o.partner_id.phone"/><br/></b></p>
+                                </div>
+                            </div>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-12" style="font-size:28px;text-align: left;"><p><b><span t-field="o.name"/></b></p></div>
+                                <br/>
+                            </div>
+                        </div>
+                        <div style="border-bottom: 3px solid #AA1917;">
+                            <div class="row">
+                                <div class="col-8" style="font-size:18px;"><p><b>ORDEN [ORIGEN]</b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b>FECHA</b></p></div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-8" style="font-size:18px;"><p><b><span t-field="o.origin"/></b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b><span t-field="o.scheduled_date"/></b></p></div>
+                            </div>
+                        </div>
+                        <div style="border-bottom: 3px solid #AA1917;">
+                            <div class="row">
+                                <div class="col-4" style="font-size:18px;"><p><b>PRODUCTO</b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b>CANTIDAD PEDIDA</b></p></div>
+                                <div class="col-4" style="font-size:18px;"><p><b>CANTIDAD ENTREGADA</b></p></div>
+                            </div>
+                            <br/>
+                            <t t-foreach="o.move_lines" t-as="lines">
+                                <div class="row">
+                                    <div class="col-4" style="font-size:18px;"><p><span t-field="lines.product_id.name"/></p></div>
+                                    <div class="col-4" style="font-size:18px;"><p><span t-esc="'%.0f'% lines.product_uom_qty"/> <span t-field="lines.product_uom"/></p></div>
+                                    <div class="col-4" style="font-size:18px;"><p><span t-esc="'%.0f'% lines.quantity_done"/> <span t-field="lines.product_uom"/></p></div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+    <template id="report_deliveryslip_inherit" inherit_id="stock.report_deliveryslip">
+        <t t-foreach="docs" t-as="o" position="replace">
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o['var_id'] == '1'">
+                    <t t-call="pat_stock.report_delivery_reception"/>
+                </t>
+                <t t-elif="o['var_id'] == '2'">
+                    <t t-call="pat_stock.report_delivery_order"/>
+                </t>
+                <t t-elif="o['var_id'] == '3'">
+                    <t t-call="stock.report_delivery_document"/>
+                </t>
+                <!--En la local el var_id = 1 - es report_delivery_document y el var_id = 3 - es report_delivery_reception-->
+            </t>
+        </t>
+    </template>
+
+    <record model="report.paperformat" id="paperformat_report_stock">
+
+        <field name="name">paperformat.report.stock</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">13</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+
+    </record>
+
+    <report
+            string="Vale de entrega"
+            id="action_report_delivery_new"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="stock.report_deliveryslip"
+            file="stock.report_deliveryslip"
+            paperformat="paperformat_report_stock"
+            print_report_name="'Vale de entrega - %s - %s' % (object.partner_id.name or '', object.name)"
+        />
+
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Generar Guias-->
+
+    <!--Vista form-->
+    <record id="liquidar_guia_form_view" model="ir.ui.view">
+        <field name="name">liquidar_guia_form_view</field>
+        <field name="model">liquidar.guia</field>
+        <field name="arch" type="xml">
+            <form strins="Liquidar Guía">
+                <header>
+                    <button name="generate_guide" type="object" string="Liquidar Guía" states="draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,liquidado" statusbar_colors='{"active":"blue"}' string="Estado"/>
+                </header>
+                <sheet>
+
+                    <group string="Liquidacíon de Guía">
+                        <field name="numero"  />
+                    </group>
+                    <field name="user_id" invisible="1" />
+                    <field name="user_name" invisible="1"/>
+                    <field name="date" invisible="1" />
+                    <field name="var" invisible="1" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+        <!--Vista Tree-->
+    <record id="liquidar_guia_tree_view" model="ir.ui.view">
+        <field name="name">liquidar.guia.tree.view</field>
+        <field name="model">liquidar.guia</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="var"/>
+                <field name="state" string="Estado"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+   <!--Action-->
+    <record model="ir.actions.act_window" id="action_liquidar_guia">
+        <field name="name">Liquidar Guía</field>
+        <field name="res_model">liquidar.guia</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--Menús-->
+
+    <!--Acción del menu-->
+    <menuitem
+         id="action_liquidar_guia_menu"
+         parent="coordinadora_menu_root"
+         string="LIQUIDAR GUÍA"
+         sequence="3"
+         action="action_liquidar_guia"
+    />
+    
+
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--Incluye en la vista del diario el numero de comprobante-->
+        <record id="comprobante_account_journal_id" model="ir.ui.view">
+            <field name="name">comprobante.account.journal</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="correlativo"/>
+                </xpath>
+
+            </field>
+
+        </record>
+    </data>
+</odoo>
