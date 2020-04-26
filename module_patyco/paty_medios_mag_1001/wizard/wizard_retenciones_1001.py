@@ -161,7 +161,7 @@ class WizardReport1008(models.TransientModel):
         		'name_two':det.partner_id.name2 or "",
         		'razon':det.partner_id.name,
         		'direccion':det.partner_id.street,
-        		'cod_dep':self.cod_departamento(det.partner_id.departamento_id.id) or "No asignado",
+        		'cod_dep':self.cod_departamento(det.partner_id.state_id.id) or "No asignado",
         		'cod_mun':det.partner_id.municipio_id.municipio_code or "No asignado",
         		'cod_pais':self.cod_pais(det.partner_id.country_id.id) or "No asignado",
         		'pago_deducible':"aaaa",
