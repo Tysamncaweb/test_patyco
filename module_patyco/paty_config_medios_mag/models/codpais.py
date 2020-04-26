@@ -24,5 +24,6 @@ class CodigoMunicipio(models.Model):
     _inherit = 'res.partner'
 
     municipio_id=fields.Many2one('res.municipio.dian',string='Municipio')
+    departamento_id=fields.Many2one('res.country.state', string='Departamento')
 
         
