@@ -1,0 +1,36 @@
+ <odoo>
+  <data> 
+    <menuitem
+             id="menu_medios_magneticos"
+             parent="account.account_account_menu"
+             name="Medios Magneticos"             
+             sequence="01"
+        />
+
+    <menuitem
+             id="menu_cod_dian"
+             parent="paty_config_medios_mag.menu_medios_magneticos"
+             name="CODIGOS DIAN"             
+             sequence="01"
+        />      
+
+           <menuitem id="menu_cod_pais" name="Codigos Pais" parent="paty_config_medios_mag.menu_cod_dian"
+            action="paty_config_medios_mag.accion_cod_pais" sequence="00"/>
+
+           <menuitem id="menu_cod_dep" name="Codigos Departamento" parent="paty_config_medios_mag.menu_cod_dian"
+            action="paty_config_medios_mag.accion_cod_dep" sequence="01"/>
+
+            <menuitem id="menu_cod_mun" name="Codigos Municipios" parent="paty_config_medios_mag.menu_cod_dian"
+            action="paty_config_medios_mag.accion_cod_munic" sequence="02"/>
+
+      <menuitem id="menu_formatos" name="Creacion de Formatos" parent="paty_config_medios_mag.menu_medios_magneticos"
+            action="paty_config_medios_mag.accion_formatos" sequence="01"/>
+
+      <menuitem id="menu_conceptos" name="Creacion de Conceptos" parent="paty_config_medios_mag.menu_medios_magneticos"
+            action="paty_config_medios_mag.accion_conceptos" sequence="02"/>
+
+      <menuitem id="menu_medios_magnaticos" name="Creacion de medios Magneticos" parent="paty_config_medios_mag.menu_medios_magneticos"
+            action="paty_config_medios_mag.accion_medios_magneticos" sequence="03"/>
+
+  </data>
+</odoo>
