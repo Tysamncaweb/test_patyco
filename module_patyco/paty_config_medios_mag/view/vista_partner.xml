@@ -6,6 +6,7 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='country_id']" position="after">
+                <field name="departamento_id" placeholder="Departamento"/>
                 <field name="municipio_id" placeholder="Municipio"/>
             </xpath>
             
