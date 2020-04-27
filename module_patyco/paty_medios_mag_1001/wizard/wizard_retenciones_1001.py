@@ -45,50 +45,52 @@ class WizardReport1008(models.TransientModel):
         # Lineas del Reporte###############################
         #row += 2
         #col = 1
-        sheet_formato_1001.write_merge(row, row, 0, 0, "Tipo de Documento", sub_title_style) 
-        sheet_formato_1001.write_merge(row, row, 1, 1, "Número identificación del informado", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 2, 2, "Primer apellido del informado", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 3, 3, "Segundo apellido del informado", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 4, 4, "Primer nombre del informado", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 5, 5, "Otros nombres del informado", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 6, 6, "Razon social informado", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 7, 7, "Direccion", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 8, 8, "Código Departamento", sub_title_style)      
-        sheet_formato_1001.write_merge(row, row, 9, 9, "Código Municipio", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 10, 10, "País de residencia o domicilio", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 0, 0, "Concepto", sub_title_style) 
+        sheet_formato_1001.write_merge(row, row, 1, 1, "Tipo de Documento", sub_title_style) 
+        sheet_formato_1001.write_merge(row, row, 2, 2, "Número identificación del informado", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 3, 3, "Primer apellido del informado", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 4, 4, "Segundo apellido del informado", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 5, 5, "Primer nombre del informado", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 6, 6, "Otros nombres del informado", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 7, 7, "Razon social informado", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 8, 8, "Direccion", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 9, 9, "Código Departamento", sub_title_style)      
+        sheet_formato_1001.write_merge(row, row, 10, 10, "Código Municipio", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 11, 11, "País de residencia o domicilio", sub_title_style)
 
-        sheet_formato_1001.write_merge(row, row, 11, 11, "Pago o abono en cuenta deducible", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 12, 12, "Pago o abono en cuenta NO deducible", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 13, 13, "Iva mayor valor del costo o gasto deducible", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 14, 14, "Iva mayor valor del costo o gasto no deducible", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 15, 15, "Retención en la fuente practicada en renta", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 16, 16, "Retención en la fuente asumida en renta", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 17, 17, "Retención en la fuente practicada IVA régimen común", sub_title_style)
-        sheet_formato_1001.write_merge(row, row, 18, 18, "Retención en la fuente practicada IVA no domiciliados", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 12, 12, "Pago o abono en cuenta deducible", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 13, 13, "Pago o abono en cuenta NO deducible", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 14, 14, "Iva mayor valor del costo o gasto deducible", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 15, 15, "Iva mayor valor del costo o gasto no deducible", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 16, 16, "Retención en la fuente practicada en renta", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 17, 17, "Retención en la fuente asumida en renta", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 18, 18, "Retención en la fuente practicada IVA régimen común", sub_title_style)
+        sheet_formato_1001.write_merge(row, row, 19, 19, "Retención en la fuente practicada IVA no domiciliados", sub_title_style)
       
         for a in datos_formato:
             row += 1
             
-            sheet_formato_1001.write_merge(row, row, 0, 0, a['tipo_doc'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 1, 1, a['nro_identificacion'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 2, 2, a['last_name'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 3, 3, a['last_name2'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 4, 4, a['name'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 5, 5, a['name_two'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 6, 6, a['razon'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 7, 7, a['direccion'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 8, 8, a['cod_dep'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 9, 9, a['cod_mun'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 10, 10, a['cod_pais'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 0, 0, a['concepto'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 1, 1, a['tipo_doc'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 2, 2, a['nro_identificacion'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 3, 3, a['last_name'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 4, 4, a['last_name2'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 5, 5, a['name'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 6, 6, a['name_two'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 7, 7, a['razon'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 8, 8, a['direccion'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 9, 9, a['cod_dep'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 10, 10, a['cod_mun'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 11, 11, a['cod_pais'], sub_title_style_bold)
 
-            sheet_formato_1001.write_merge(row, row, 11, 11, a['pago_deducible'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 12, 12, a['pago_no_deducible'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 13, 13, a['iva_gasto_deducible'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 14, 14, a['iva_gasto_no_deducible'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 15, 15, a['retencion_p_renta'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 16, 16, a['retencion_a_renta'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 17, 17, a['retencion_p_comun'], sub_title_style_bold)
-            sheet_formato_1001.write_merge(row, row, 18, 18, a['retencion_p_no_domici'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 12, 12, a['pago_deducible'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 13, 13, a['pago_no_deducible'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 14, 14, a['iva_gasto_deducible'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 15, 15, a['iva_gasto_no_deducible'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 16, 16, a['retencion_p_renta'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 17, 17, a['retencion_a_renta'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 18, 18, a['retencion_p_comun'], sub_title_style_bold)
+            sheet_formato_1001.write_merge(row, row, 19, 19, a['retencion_p_no_domici'], sub_title_style_bold)
 
         wb.save(fp)
 
@@ -147,12 +149,20 @@ class WizardReport1008(models.TransientModel):
     		dep_code=det_dep.departamento_code
     	return dep_code
 
+    def concepto(self,id_account):
+        lista_lineas=self.env['account.lines.medios.magneticos'].search([('account_src_id','=',id_account)])
+        for det_lineas in lista_lineas:
+            position_mag=det_lineas.position_mag_id.conceptos.cod
+        return position_mag
+
     @api.multi
     def get_datos_account_invoice(self, date_start,date_end,concepto_id):
         vect=self.env['account.invoice'].search([('date_invoice','>=',date_start),('date_invoice','<=',date_end)])
         datos_formato = []
         for det in vect:
+            #raise exceptions.UserError(('No ha iniciado sesion de cajero %s'),% concepto_id)
         	datos_formato.append({
+                'concepto':self.concepto(det.account_id.id),
         		'tipo_doc':self.get_tipo_documento(det.partner_id.l10n_co_document_type),
         		'nro_identificacion':det.partner_id.vat,
         		'last_name':det.partner_id.last_name or "",
@@ -164,13 +174,13 @@ class WizardReport1008(models.TransientModel):
         		'cod_dep':self.cod_departamento(det.partner_id.state_id.id) or "No asignado",
         		'cod_mun':det.partner_id.municipio_id.municipio_code or "No asignado",
         		'cod_pais':self.cod_pais(det.partner_id.country_id.id) or "No asignado",
-        		'pago_deducible':"aaaa",
-        		'pago_no_deducible':"aaaa",
-        		'iva_gasto_deducible':"aaaa",
-        		'iva_gasto_no_deducible':"aaaa",
-        		'retencion_p_renta':"aaaa",
-        		'retencion_a_renta':"aaaa",
-        		'retencion_p_comun':"aaaa",
-        		'retencion_p_no_domici':"aaaa",
+        		'pago_deducible':det.amount_total,
+        		'pago_no_deducible':"0",
+        		'iva_gasto_deducible':det.amount_tax,
+        		'iva_gasto_no_deducible':"0",
+        		'retencion_p_renta':"0",
+        		'retencion_a_renta':"0",
+        		'retencion_p_comun':"0",
+        		'retencion_p_no_domici':"0",
         		})
         return datos_formato

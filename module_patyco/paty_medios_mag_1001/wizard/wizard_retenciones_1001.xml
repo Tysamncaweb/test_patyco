@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                  <form string="Reporte Nro 1001">
                      <group colspan="8" col="4">
+                         <!--field name="ano" string="Año" placeholder="Ejemplo: 2016"/-->
                          <field name="date_start" string="Fecha inicio" required="1"/>
                          <field name="date_end" string="Fecha fin" required="1"/>
                          <field name="concepto_id" string="Conceptos" required="1"/>
